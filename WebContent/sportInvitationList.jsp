@@ -12,7 +12,8 @@
 	//向微信服务器拉取用户数据，并初始化user类
 	String code = "";
 	code = request.getParameter("code");
-	if (user.init(code) == false) {
+	user.init(code);
+	if (user.initSuccess == false) {
 		%>
 		<script type="text/javascript">
 		alert("微信自动登录失败！");

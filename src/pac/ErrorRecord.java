@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ErrorRecord {
-
+	//用于记录错误日志
 	public ErrorRecord(String error) {
 		try {
             //打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
