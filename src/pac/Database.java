@@ -14,14 +14,14 @@ public class Database {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new ErrorRecord(e.toString());
 		}
 	}
 	
 	/*
 	private static String db_name = "dbteam";
 	private static String db_passwd = "666666";
-	private static String db_url = "jdbc:mysql://sysustudentunion.cn:3306/test?characterEncoding=utf8&useSSL=false";
+	private static String db_url = "jdbc:mysql://127.0.0.1:3306/test?characterEncoding=utf8&useSSL=false";
 	 */
 
 	private static String db_name = "shallwe";
@@ -36,6 +36,7 @@ public class Database {
 			conn = DriverManager.getConnection(db_url, db_name, db_passwd);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			new ErrorRecord(e.toString());
 			e.printStackTrace();
 			return null;
 		}
@@ -46,10 +47,11 @@ public class Database {
     	Statement stmt = null;
         // 执行查询,实例化Statement对
         try {
-			stmt = conn.createStatement();
+			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			return stmt;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			new ErrorRecord(e.toString());
 			e.printStackTrace();
 			return null;
 		}
@@ -58,10 +60,11 @@ public class Database {
 	public static PreparedStatement initSatement(Connection conn, String sql) {
 		PreparedStatement stmt;
 		try {
-			stmt = conn.prepareStatement(sql);
+			stmt = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			return stmt;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			new ErrorRecord(e.toString());
 			e.printStackTrace();
 			return null;
 		}
@@ -73,6 +76,7 @@ public class Database {
 			rs = stmt.executeQuery(sql);
 			return rs;
 		} catch (SQLException e) {
+			new ErrorRecord(e.toString());
 			e.printStackTrace();
 			return null;
 		}
@@ -84,6 +88,7 @@ public class Database {
 			rs = stmt.executeQuery();
 			return rs;
 		} catch (SQLException e) {
+			new ErrorRecord(e.toString());
 			e.printStackTrace();
 			return null;
 		}
@@ -94,6 +99,7 @@ public class Database {
 			stmt.execute(sql);
 			return true;
 		} catch (SQLException e) {
+			new ErrorRecord(e.toString());
 			e.printStackTrace();
 			return false;
 		}
@@ -104,8 +110,23 @@ public class Database {
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
+			new ErrorRecord(e.toString());
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	public static int getResultSize(ResultSet rs) {
+		try{
+			rs.last();//移到最后一行  
+			int count = rs.getRow();  
+			rs.beforeFirst();//移到初始位置  
+			return count;
+		}catch(SQLException e){
+			// TODO Auto-generated catch block
+			new ErrorRecord(e.toString());
+			e.printStackTrace();
+			return -1;
 		}
 	}
 	
@@ -114,6 +135,7 @@ public class Database {
 			stmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			new ErrorRecord(e.toString());
 			e.printStackTrace();
 		}
 	}
@@ -123,6 +145,7 @@ public class Database {
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			new ErrorRecord(e.toString());
 			e.printStackTrace();
 		}
 	}
