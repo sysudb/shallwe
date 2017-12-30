@@ -1,3 +1,7 @@
+/*
+ * 没有用到这个class
+ */
+
 package pac;
 
 public class SportType {

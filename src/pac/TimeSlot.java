@@ -1,18 +1,20 @@
 package pac;
 
+
+import java.sql.Timestamp;
+
 public class TimeSlot {
 	
 	@SuppressWarnings("unused")
 	private int id;
-	public String year, month, day, week;
-	public int startHour, endHour, startMinute, endMinute;
-	boolean available;//是否有人预定
+	public Timestamp startTime, endTime;
+//	public String year, month, day, week;
+//	public int startHour, endHour, startMinute, endMinute;
+//	boolean available;//是否有人预定
 	
-	public TimeSlot(/*参数不限，因为设计不能用于Javabean，必须通过
-	 		SportInvitation.court	或
-	 		Stadium.timeSlot		访问*/) {
-		// TODO 构造函数
-		//初始化所有成员变量
+	public TimeSlot(Timestamp startTime, Timestamp endTime) {
+		this.startTime = startTime;
+		this.endTime = endTime;
 	}
 
 	public static void main(String[] args) {

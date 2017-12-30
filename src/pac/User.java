@@ -12,20 +12,64 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import java.sql.*;
+
 public class User {//还在设计中，未完待续
 	
 	public boolean initSuccess;
 	public String openid, nickname, sex, province, city, country, headimgurl;
-	public int money;
+	public float money;
 	public SportInvitation sportInvitationList[];
 	public int sportInvitationListLen;
 	
-	public User(/*这里不能有任何参数，因为设计用于Javabean*/) {
+	public User(/*这里不能有任何参数，因为设计用于 javabean */) {
+		
+		/*
+		 * 
 		//【当使用调试模式时把这里手动置为true】
-		this.initSuccess = false;
-		//然后在这里把openid, nickname, sex, province, city, country, headimgurl 手动初始化
+		this.initSuccess = true;
+		//然后在这里把 openid, nickname, sex, province, city, country, headimgurl 手动初始化
 		//以便查看stadium.jsp效果
-		//TODO
+		this.openid = "tungkimwa";
+		this.nickname = "tungkw";
+		this.sex = "male";
+		this.province = "guangdong";
+		this.city = "guangzhou";
+		this.country = "china";
+		this.headimgurl = "emmmmmmmm";
+		this.sportInvitationListLen = 0;
+		 */
+		
+	}
+	
+	private String regist(String openid, String nickname, String sex, String province, String city, String country) {
+		//向数据库注册用户
+		
+        String stat;
+        
+		//创建数据库连接
+		Connection conn = Database.connect();
+		
+        //执行查询
+		Statement stmt = Database.initSatement(conn);
+		
+		String sql = "INSERT INTO user (wechat_id, wechat_name, money, sex, province, city, country) "
+				+ "VALUES("
+					+ "'" + openid + "',"
+					+ "'" + nickname + "',"
+					+ 0 + ","
+					+ "'" + sex + "',"
+					+ "'" + province + "',"
+					+ "'" + city + "',"
+					+ "'" + country + "'"
+				+ ")";
+		if(Database.execute(stmt, sql)) stat = "success";
+		else stat = "create invitaion failed";
+		Database.closeStatement(stmt);
+        
+        //关闭连接   !!!一定要关闭，释放资源
+        Database.disconect(conn);
+		return stat;//仅为了消灭没有返回值的错误提示
 	}
 	
 	public void init(String code) {
@@ -59,19 +103,25 @@ public class User {//还在设计中，未完待续
 			this.headimgurl = userInfo.getString("headimgurl");
 			this.getSportInvitationList(false);
 			this.initSuccess = true;
+			regist(this.openid,this.nickname,this.sex,this.province,this.city,this.country);
 			return;
 		} catch (Exception e) {
 			return;
 		}
 	}
 	
+	/*
 	private int getSportInvitationListLen() {
 		//获取sportInvitationList数组的长度
-		//TODO
-		return 0;//仅为了消灭没有返回值的错误提示
+		return this.sportInvitationList.length;
+	}
+	*/
+	
+	private void getSportInvitationList(boolean my) {
+		getSportInvitationList(my, 20);
 	}
 	
-	public void getSportInvitationList(boolean my) {
+	public void getSportInvitationList(boolean my,int count) {
 		/* 返回运动邀请
 		 * 参数my表示是否是自己的邀请
 		 * 当为false时返回所有别人发出的、有空位的邀请，用于sportInvitation.jsp页面
@@ -79,29 +129,82 @@ public class User {//还在设计中，未完待续
 		 * 注意这里并不直接返回邀请列表，邀请列表在User.sportInvitationList数组中
 		 * 注意在init()函数（57行）已经写了调用一次这个函数
 		 */
-		this.sportInvitationListLen = this.getSportInvitationListLen();
-		this.sportInvitationList = new SportInvitation[this.sportInvitationListLen];
-		for (int i = 0; i < this.sportInvitationListLen; i++) {
-			this.sportInvitationList[i] = new SportInvitation(/*参数自定*/);
-			//TODO 初始化每个SportInvitation
+		
+		/*
+		 * 参数count是生成显示邀请的数目
+		 * 默认值为20，通过下面的重载函数实现
+		 */
+		
+		//确保数组长度足够
+		this.sportInvitationList = SportInvitation.getSportInvitationList(my,count);
+		for (int i = 0; i < count; i++) {
+			if(this.sportInvitationList[i] == null) {
+				this.sportInvitationListLen = i;
+				break;
+			}
+		}
+	}
+	
+	public void getMoney(){
+		//返回自己的余额，用于me.jsp页面
+		
+		//创建数据库连接
+		Connection conn = Database.connect();
+		
+        //执行查询
+		String sql = "SELECT money FROM user where wechat_id = " + "\"" + this.openid + "\"";
+        Statement stmt = Database.initSatement(conn);
+        ResultSet rs = Database.require(stmt, sql);
+        
+        //提取查询结果
+        try {
+			while(rs.next()){
+			    // 通过字段检索
+			    try {
+					this.money = rs.getFloat("money");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
+        //关闭连接   !!!一定要关闭，释放资源
+		Database.closeStatement(stmt);
+        Database.disconect(conn);
 	}
 	
-	public int getMoney() {
-		//返回自己的余额，用于me.jsp页面
-		//TODO
-		return 0;//仅为了消灭没有返回值的错误提示
-	}
-	
-	public void addMoney(int money) {
+	public void addMoney(double money) {
 		//充值，用于recharge.jsp页面
-		//TODO
+
+		//创建数据库连接
+		Connection conn = Database.connect();
+		
+        //执行查询
+		String sql = "UPDATE user SET money = money + " + money + "WHERE wechat_id = " + "\"" + this.openid + "\"";
+        Statement stmt = Database.initSatement(conn);
+        if(Database.execute(stmt, sql)) this.money += money;
+		
+        //关闭连接   !!!一定要关闭，释放资源
+		Database.closeStatement(stmt);
+        Database.disconect(conn);
 	}
 	
-	public void reduceMoney(int money) {
+	public void reduceMoney(double money) {
 		//扣钱，用于payInvitation.jsp
-		//TODO
+
+		//创建数据库连接
+		Connection conn = Database.connect();
+		
+        //执行查询
+		String sql = "UPDATE user SET money = money - " + money + "WHERE wechat_id = " + "\"" + this.openid + "\"";
+        Statement stmt = Database.initSatement(conn);
+        if(Database.execute(stmt, sql)) this.money -= money;
+		
+        //关闭连接   !!!一定要关闭，释放资源
+		Database.closeStatement(stmt);
+        Database.disconect(conn);
 	}
 	
 	private JSONObject doGetJson(String url){
@@ -126,6 +229,16 @@ public class User {//还在设计中，未完待续
 	
 	public static void main(String[] args) {
 		//测试代码
+		User user1 = new User();
+		System.out.println(user1.openid + user1.nickname + user1.sex + user1.province + user1.city + user1.country + user1.headimgurl);
+		user1.getMoney();
+		System.out.println(user1.money);
+		user1.addMoney(50.7);
+		System.out.println(user1.money);
+		user1.reduceMoney(50.7);
+		System.out.println(user1.money);
+		
+		user1.regist("1111", "2222", "3333", "4444", "5555", "6666");
 	}
 
 }
