@@ -169,7 +169,6 @@ public class User {//还在设计中，未完待续
 		}
 		
         for(int i = 0 ; i < this.sportInvitationListLen;i++) {
-        	System.out.println(i);
             sql = "SELECT count(*) as num_participant FROM participate WHERE activity_id = " + this.sportInvitationList[i].getId();
             rs = Database.require(stmt, sql);
             try {
