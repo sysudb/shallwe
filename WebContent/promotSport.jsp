@@ -392,7 +392,7 @@
 		</form>
 		<form class = "sport_disp">
 			<p>介绍</p>
-			<input type="text" name="sport_slogan" placeholder = "请详细描述计划内容" onfocus="this.placeholder=''" onblur="this.placeholder='请详细描述计划内容'" type = "text">
+			<input name="sport_slogan" placeholder = "请详细描述计划内容" onfocus="this.placeholder=''" onblur="this.placeholder='请详细描述计划内容'" type = "text">
 		</form>
 	</div>
 	<div class = "button" onclick = "stadiumChooseButton(this)">
