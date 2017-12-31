@@ -10,6 +10,27 @@
 <% request.setCharacterEncoding("UTF-8"); %>
 <jsp:useBean id="user" scope="session" class="pac.User" />
 
+<%
+	if (user.initSuccess && request.getParameter("charge")!=null && request.getParameter("charge").equals("yes")) {
+		try {
+			String chargeMoneyStr = request.getParameter("money");
+			int chargeMoney = Integer.valueOf(chargeMoneyStr);
+			user.addMoney(chargeMoney);
+			%>
+			<script type="text/javascript">
+			alert("充值成功！");
+			</script>
+			<%
+		} catch (Exception e) {
+			%>
+			<script type="text/javascript">
+			alert("充值失败！");
+			</script>
+			<%
+		}
+	}
+%>
+
 <div align="center">
 <img src="<%=user.headimgurl%>" alt="图像缺失" width="20%" style="border: rgb(128,128,128) solid 5px;border-radius:50%;"/>
 <p style="font-size:20px"><%=user.province%>-<%=user.city %></p>
