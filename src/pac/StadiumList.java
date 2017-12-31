@@ -15,14 +15,6 @@ public class StadiumList {
 		//构造函数
 	}
 	
-	/*
-	private int getListLen() {
-		//获得场馆数量
-		return 0;//仅为了消灭没有返回值的错误提示
-	}
-	 * 
-	 */
-	
 	public void getStadiumListBySportType(String sportType) {
 		
 		//获取某种特定的场馆信息
@@ -33,30 +25,11 @@ public class StadiumList {
         //执行查询
         Statement stmt = Database.initSatement(conn);
         
-		String sql = "SELECT count(*) as stadium_count "
-					+ "FROM ("
-						+ "SELECT DISTINCT stadium_id, stadium_name, location FROM stadium NATURAL JOIN court WHERE sport_type = \"" + sportType + "\""
-					+ ") as T";
+		String sql = "SELECT DISTINCT stadium_id, stadium_name, address FROM stadium NATURAL JOIN court WHERE sport_type = \"" + sportType + "\"";
         ResultSet rs = Database.require(stmt, sql);
-        try {
-			while(rs.next()){
-			    // 通过字段检索
-			    try {
-			    	this.listLen = rs.getInt("stadium_count");
-				} catch (SQLException e) {
-					this.listLen = 0;
-					e.printStackTrace();
-					return;
-				}
-			}
-		} catch (SQLException e) {
-	        Database.disconect(conn);
-			e.printStackTrace();
-			return;
-		}
         
-		sql = "SELECT DISTINCT stadium_id, stadium_name, location FROM stadium NATURAL JOIN court WHERE sport_type = \"" + sportType + "\"";
-        rs = Database.require(stmt, sql);
+        this.listLen = Database.getResultSize(rs);
+        
         //提取查询结果
         this.list = new Stadium[this.listLen];
         try {
@@ -64,14 +37,16 @@ public class StadiumList {
 			while(rs.next() && i < this.listLen){
 			    // 通过字段检索
 			    try {
-			    	this.list[i] = new Stadium(rs.getInt("stadium_id"), rs.getString("stadium_name"), rs.getString("location"));
+			    	this.list[i] = new Stadium(rs.getInt("stadium_id"), rs.getString("stadium_name"), rs.getString("address"));
 			    	i++;
 				} catch (SQLException e) {
 					e.printStackTrace();
+					new ErrorRecord(e.toString());
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			new ErrorRecord(e.toString());
 		}
 		
         //关闭连接   !!!一定要关闭，释放资源
@@ -83,7 +58,7 @@ public class StadiumList {
 		StadiumList list = new StadiumList();
 		list.getStadiumListBySportType("run");
 		for(int i = 0 ; i < list.listLen; i++) {
-			System.out.println(list.list[i].name + " " + list.list[i].location);
+			System.out.println(list.list[i].name + " " + list.list[i].address);
 		}
 	}
 }
