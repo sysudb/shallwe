@@ -24,22 +24,18 @@ public class User {//还在设计中，未完待续
 	
 	public User(/*这里不能有任何参数，因为设计用于 javabean */) {
 		
-		/*
-		 * 
 		//【当使用调试模式时把这里手动置为true】
 		this.initSuccess = true;
 		//然后在这里把 openid, nickname, sex, province, city, country, headimgurl 手动初始化
 		//以便查看stadium.jsp效果
 		this.openid = "tungkimwa";
 		this.nickname = "tungkw";
-		this.sex = "male";
+		this.sex = "1";
 		this.province = "guangdong";
 		this.city = "guangzhou";
 		this.country = "china";
 		this.headimgurl = "emmmmmmmm";
 		this.sportInvitationListLen = 0;
-		 */
-		
 	}
 	
 	private String regist(String openid, String nickname, String sex, String province, String city, String country) {
@@ -62,7 +58,8 @@ public class User {//还在设计中，未完待续
 					+ "'" + province + "',"
 					+ "'" + city + "',"
 					+ "'" + country + "'"
-				+ ")";
+				+ ") "
+				+ "ON duplicate KEY UPDATE wechat_id = wechat_id";
 		if(Database.execute(stmt, sql)) stat = "success";
 		else stat = "create invitaion failed";
 		Database.closeStatement(stmt);
@@ -110,14 +107,7 @@ public class User {//还在设计中，未完待续
 		}
 	}
 	
-	/*
-	private int getSportInvitationListLen() {
-		//获取sportInvitationList数组的长度
-		return this.sportInvitationList.length;
-	}
-	*/
-	
-	private void getSportInvitationList(boolean my) {
+	public void getSportInvitationList(boolean my) {
 		getSportInvitationList(my, 20);
 	}
 	
@@ -134,15 +124,69 @@ public class User {//还在设计中，未完待续
 		 * 参数count是生成显示邀请的数目
 		 * 默认值为20，通过下面的重载函数实现
 		 */
+
+		this.sportInvitationList = new SportInvitation[count];
 		
-		//确保数组长度足够
-		this.sportInvitationList = SportInvitation.getSportInvitationList(my,count);
-		for (int i = 0; i < count; i++) {
-			if(this.sportInvitationList[i] == null) {
-				this.sportInvitationListLen = i;
-				break;
+		//创建数据库连接
+		Connection conn = Database.connect();
+		
+        //执行查询
+        Statement stmt = Database.initSatement(conn);
+        
+		String sql = "SELECT * FROM activities NATURAL JOIN stadium";
+        ResultSet rs = Database.require(stmt, sql);
+        
+        //提取查询结果
+        try {
+        	int i = 0;
+			while(rs.next() && i<count){
+			    // 通过字段检索
+			    try {
+			    	this.sportInvitationList[i] = new SportInvitation(
+					rs.getInt("activity_id"),
+					rs.getString("slogan"),
+					rs.getString("sport_type"),
+					rs.getFloat("cost"),
+					rs.getBoolean("pay_type"),
+					new Stadium(rs.getInt("stadium_id"),rs.getString("stadium_name"),rs.getString("location")),
+					new TimeSlot(rs.getTimestamp("start_time"),rs.getTimestamp("end_time")),
+					0,
+					rs.getInt("max_participant"));
+		    		i++;
+				} catch (SQLException e) {
+					e.printStackTrace();
+					new ErrorRecord(e.toString());
+				}
 			}
+			this.sportInvitationListLen = i;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			new ErrorRecord(e.toString());
 		}
+		
+        for(int i = 0 ; i < this.sportInvitationListLen;i++) {
+        	System.out.println(i);
+            sql = "SELECT count(*) as num_participant FROM participate WHERE activity_id = " + this.sportInvitationList[i].activityId;
+            rs = Database.require(stmt, sql);
+            try {
+				while(rs.next() && i<count){
+					// 通过字段检索
+			        try {
+			        	this.sportInvitationList[i].joinPeople = rs.getInt("num_participant");
+					} catch (SQLException e) {
+						e.printStackTrace();
+						new ErrorRecord(e.toString());
+					}
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				new ErrorRecord(e.toString());
+			}
+        }
+        //关闭连接   !!!一定要关闭，释放资源
+		Database.closeStatement(stmt);
+        Database.disconect(conn);
 	}
 	
 	public void getMoney(){
@@ -164,10 +208,12 @@ public class User {//还在设计中，未完待续
 					this.money = rs.getFloat("money");
 				} catch (SQLException e) {
 					e.printStackTrace();
+					new ErrorRecord(e.toString());
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			new ErrorRecord(e.toString());
 		}
 		
         //关闭连接   !!!一定要关闭，释放资源
@@ -238,7 +284,30 @@ public class User {//还在设计中，未完待续
 		user1.reduceMoney(50.7);
 		System.out.println(user1.money);
 		
-		user1.regist("1111", "2222", "3333", "4444", "5555", "6666");
-	}
+		user1.regist("9999", "2222", "3333", "4444", "5555", "6666");
+		
 
+		int count = 10;
+		user1.getSportInvitationList(false, count);
+		for(int i = 0 ; i < count;i++) {
+			if(user1.sportInvitationList[i]!=null) {
+				System.out.println(
+						user1.sportInvitationList[i].activityId + 
+						user1.sportInvitationList[i].money + 
+						user1.sportInvitationList[i].slogan + 
+						user1.sportInvitationList[i].sportType + 
+						user1.sportInvitationList[i].joinPeople + 
+						user1.sportInvitationList[i].totalPeople);
+				user1.sportInvitationList[i].getDetails();
+				System.out.println("creator: " + user1.sportInvitationList[i].ownerWechatName);
+				for(int j = 0 ; j <user1.sportInvitationList[i].joinPeople;j++) {
+					System.out.println(user1.sportInvitationList[i].participantWechatname[j]);
+				}
+				if(user1.sportInvitationList[i].ownerWechatName.equals("lj")) {
+					String stat = user1.sportInvitationList[i].joinInvitation(new User());
+					System.out.println(stat);
+				}
+			}
+		}
+	}
 }
