@@ -28,17 +28,19 @@ public class User {//还在设计中，未完待续
 		this.initSuccess = true;
 		//然后在这里把 openid, nickname, sex, province, city, country, headimgurl 手动初始化
 		//以便查看stadium.jsp效果
-		this.openid = "tungkimwa";
-		this.nickname = "tungkw";
+		this.openid = "tungkimwa2";
+		this.nickname = "tungkw2";
 		this.sex = "1";
 		this.province = "guangdong";
 		this.city = "guangzhou";
 		this.country = "china";
-		this.headimgurl = "emmmmmmmm";
 		this.sportInvitationListLen = 0;
+		this.headimgurl = "/shallwe/image/default_icon.jpg";
+		regist(this.openid,this.nickname,this.sex,this.province,this.city,this.country,this.headimgurl);
+		this.getMoney();
 	}
 	
-	private String regist(String openid, String nickname, String sex, String province, String city, String country) {
+	private String regist(String openid, String nickname, String sex, String province, String city, String country, String iconUrl) {
 		//向数据库注册用户
 		
         String stat;
@@ -49,15 +51,16 @@ public class User {//还在设计中，未完待续
         //执行查询
 		Statement stmt = Database.initSatement(conn);
 		
-		String sql = "INSERT INTO user (wechat_id, wechat_name, money, sex, province, city, country) "
+		String sql = "INSERT INTO user (wechat_id, wechat_name, money, sex, province, city, country, icon_url) "
 				+ "VALUES("
 					+ "'" + openid + "',"
 					+ "'" + nickname + "',"
-					+ 0 + ","
+					+ 0.0f + ","
 					+ "'" + sex + "',"
 					+ "'" + province + "',"
 					+ "'" + city + "',"
-					+ "'" + country + "'"
+					+ "'" + country + "',"
+					+ "'" + iconUrl + "'"
 				+ ") "
 				+ "ON duplicate KEY UPDATE wechat_id = wechat_id";
 		if(Database.execute(stmt, sql)) stat = "success";
@@ -100,7 +103,7 @@ public class User {//还在设计中，未完待续
 			this.headimgurl = userInfo.getString("headimgurl");
 			this.getSportInvitationList(false);
 			this.initSuccess = true;
-			regist(this.openid,this.nickname,this.sex,this.province,this.city,this.country);
+			regist(this.openid,this.nickname,this.sex,this.province,this.city,this.country,this.headimgurl);
 			return;
 		} catch (Exception e) {
 			return;
@@ -148,10 +151,11 @@ public class User {//还在设计中，未完待续
 					rs.getString("sport_type"),
 					rs.getFloat("cost"),
 					rs.getBoolean("pay_type"),
-					new Stadium(rs.getInt("stadium_id"),rs.getString("stadium_name"),rs.getString("location")),
+					new Stadium(rs.getInt("stadium_id"),rs.getString("stadium_name"),rs.getString("address")),
 					new TimeSlot(rs.getTimestamp("start_time"),rs.getTimestamp("end_time")),
 					0,
-					rs.getInt("max_participant"));
+					rs.getInt("max_participant"),
+					rs.getString("location"));
 		    		i++;
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -166,13 +170,14 @@ public class User {//还在设计中，未完待续
 		
         for(int i = 0 ; i < this.sportInvitationListLen;i++) {
         	System.out.println(i);
-            sql = "SELECT count(*) as num_participant FROM participate WHERE activity_id = " + this.sportInvitationList[i].activityId;
+            sql = "SELECT count(*) as num_participant FROM participate WHERE activity_id = " + this.sportInvitationList[i].getId();
             rs = Database.require(stmt, sql);
             try {
 				while(rs.next() && i<count){
 					// 通过字段检索
 			        try {
 			        	this.sportInvitationList[i].joinPeople = rs.getInt("num_participant");
+			        	this.sportInvitationList[i].getDetails();
 					} catch (SQLException e) {
 						e.printStackTrace();
 						new ErrorRecord(e.toString());
@@ -284,7 +289,7 @@ public class User {//还在设计中，未完待续
 		user1.reduceMoney(50.7);
 		System.out.println(user1.money);
 		
-		user1.regist("9999", "2222", "3333", "4444", "5555", "6666");
+		user1.regist("7777", "2222", "3333", "4444", "5555", "6666","/shallwe/image/default_icon.jpg");
 		
 
 		int count = 10;
@@ -292,7 +297,7 @@ public class User {//还在设计中，未完待续
 		for(int i = 0 ; i < count;i++) {
 			if(user1.sportInvitationList[i]!=null) {
 				System.out.println(
-						user1.sportInvitationList[i].activityId + 
+						user1.sportInvitationList[i].getId() + 
 						user1.sportInvitationList[i].money + 
 						user1.sportInvitationList[i].slogan + 
 						user1.sportInvitationList[i].sportType + 
@@ -301,7 +306,7 @@ public class User {//还在设计中，未完待续
 				user1.sportInvitationList[i].getDetails();
 				System.out.println("creator: " + user1.sportInvitationList[i].ownerWechatName);
 				for(int j = 0 ; j <user1.sportInvitationList[i].joinPeople;j++) {
-					System.out.println(user1.sportInvitationList[i].participantWechatname[j]);
+					System.out.println(user1.sportInvitationList[i].participantWechatname[j] + " " + user1.sportInvitationList[i].participantIcon[j]);
 				}
 				if(user1.sportInvitationList[i].ownerWechatName.equals("lj")) {
 					String stat = user1.sportInvitationList[i].joinInvitation(new User());

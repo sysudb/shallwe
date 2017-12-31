@@ -25,7 +25,7 @@ public class StadiumList {
         //执行查询
         Statement stmt = Database.initSatement(conn);
         
-		String sql = "SELECT DISTINCT stadium_id, stadium_name, location FROM stadium NATURAL JOIN court WHERE sport_type = \"" + sportType + "\"";
+		String sql = "SELECT DISTINCT stadium_id, stadium_name, address FROM stadium NATURAL JOIN court WHERE sport_type = \"" + sportType + "\"";
         ResultSet rs = Database.require(stmt, sql);
         
         this.listLen = Database.getResultSize(rs);
@@ -37,7 +37,7 @@ public class StadiumList {
 			while(rs.next() && i < this.listLen){
 			    // 通过字段检索
 			    try {
-			    	this.list[i] = new Stadium(rs.getInt("stadium_id"), rs.getString("stadium_name"), rs.getString("location"));
+			    	this.list[i] = new Stadium(rs.getInt("stadium_id"), rs.getString("stadium_name"), rs.getString("address"));
 			    	i++;
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -58,7 +58,7 @@ public class StadiumList {
 		StadiumList list = new StadiumList();
 		list.getStadiumListBySportType("run");
 		for(int i = 0 ; i < list.listLen; i++) {
-			System.out.println(list.list[i].name + " " + list.list[i].location);
+			System.out.println(list.list[i].name + " " + list.list[i].address);
 		}
 	}
 }

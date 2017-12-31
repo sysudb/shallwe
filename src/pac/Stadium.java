@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class Stadium {
 	// 以下是粗略信息
-	public String name, location;
+	public String name, address;
 	@SuppressWarnings("unused")
 	private int id;
 	// 以下是详细信息
@@ -17,10 +17,10 @@ public class Stadium {
 	public Court[] courtList;
 	public int courtListLen;
 	
-	public Stadium(int id, String name, String location) {
+	public Stadium(int id, String name, String address) {
 		this.id = id;
 		this.name = name;
-		this.location = location;
+		this.address = address;
 	}
 	
 	public Stadium(int id) {

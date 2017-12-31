@@ -10,7 +10,7 @@ public class Court {
 	
 	// 以下是粗略信息，用于sportInvitationDetail.jsp页面
 	public String name;
-	public int id;
+	private int id;
 	// 以下是详细信息，用于selectCourtTime.jsp页面
 	public TimeSlot timeSlotList[];
 	public int timeSlotListLen;
@@ -44,7 +44,7 @@ public class Court {
 			while(rs.next() && i < this.timeSlotListLen){
 			    // 通过字段检索
 			    try {
-			    	this.timeSlotList[i] = new TimeSlot(rs.getInt("timeslot_id"), rs.getTimestamp("from_time"), rs.getTimestamp("to_time"), rs.getBoolean("status"));
+			    	this.timeSlotList[i] = new TimeSlot(rs.getTimestamp("from_time"), rs.getTimestamp("to_time"), rs.getInt("timeslot_id"), rs.getBoolean("status"));
 			    	i++;
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -61,16 +61,43 @@ public class Court {
         Database.disconect(conn);
 	}
 
+	public int getId() {
+		return this.id;
+	}
+	
+	public String book(User bookPeople, int timeslotId) {
+        String stat;
+        
+		//创建数据库连接
+		Connection conn = Database.connect();
+		
+        //执行查询
+		Statement stmt = Database.initSatement(conn);
+		
+		String sql = "SELECT * FROM time_slot where timeslot_id = " + timeslotId + " and status = " + 0;
+		ResultSet rs = Database.require(stmt, sql);
+		if(Database.getResultSize(rs) == 0) return "booked";
+		
+		sql = "INSERT book (wechat_id, timeslot_id) VALUES('" + bookPeople.openid + "', " + timeslotId + ")";
+		if(Database.execute(stmt, sql)) {
+			stat = "success";
+		}
+		else stat = "join invitation failed";
+		Database.closeStatement(stmt);
+        
+        //关闭连接   !!!一定要关闭，释放资源
+        Database.disconect(conn);
+		return stat;
+	}
+	
 	public static void main(String[] args) {
 		// 测试程序
 		Court court = new Court(1, "court1");
 		court.getTimeSlotList(3);
 		System.out.println(court.timeSlotListLen);
 		for(int i = 0 ; i < court.timeSlotListLen;i++) {
-			System.out.println(court.timeSlotList[i].id + " " + court.timeSlotList[i].startTime.toString() + "    " + court.timeSlotList[i].endTime.toString() + "    " + court.timeSlotList[i].status);
-			System.out.println(court.timeSlotList[i].status);
-			court.timeSlotList[i].book(new User());
-			System.out.println(court.timeSlotList[i].status);
+			System.out.println(court.timeSlotList[i].getId() + " " + court.timeSlotList[i].startTime.toString() + "    " + court.timeSlotList[i].endTime.toString() + "    " + court.timeSlotList[i].getStatud());
+			court.book(new User(), court.timeSlotList[i].getId());
 		}
 	}
 }
