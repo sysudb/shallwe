@@ -11,7 +11,7 @@ public class Stadium {
 	@SuppressWarnings("unused")
 	private int id;
 	// 以下是详细信息
-	int availableDay;//从今天算起有几天是可以预定的，0则为只有今天
+	//int availableDay;//从今天算起有几天是可以预定的，0则为只有今天
 	public String[] sportTypeList;
 	public int sportTypeListLen;
 	public Court[] courtList;

@@ -128,15 +128,15 @@ public class SportInvitation {
 		ResultSet rs = Database.require(stmt, sql);
 		if(Database.getResultSize(rs) > 0) return "joined";
 		
-		if(Database.execute(stmt, sql)) stat = "success";
-		else stat = "join invitation failed";
-		
 		sql = "INSERT INTO participate (wechat_id, activity_id) "
 				+ "VALUES("
 					+ "'" + newParticipant.openid + "',"
 					+ this.activityId
 				+ ")";
-		if(Database.execute(stmt, sql)) stat = "success";
+		if(Database.execute(stmt, sql)) {
+			this.joinPeople += 1;
+			stat = "success";
+		}
 		else stat = "join invitation failed";
 		Database.closeStatement(stmt);
         
@@ -185,7 +185,7 @@ public class SportInvitation {
 		Stadium stadium = new Stadium(100001);
 		Timestamp start_time = new Timestamp(System.currentTimeMillis());
 		Timestamp end_time = new Timestamp(System.currentTimeMillis());
-		TimeSlot timeslot = new TimeSlot(start_time, end_time);
+		TimeSlot timeslot = new TimeSlot(1, start_time, end_time, false);
 		String stat = SportInvitation.makeInvitation("what the ¡£¡£¡£", 100, true,"boxing", 99, stadium, timeslot, "emmmm");
 		System.out.println(stat);
 	}

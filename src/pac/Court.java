@@ -10,8 +10,7 @@ public class Court {
 	
 	// 以下是粗略信息，用于sportInvitationDetail.jsp页面
 	public String name;
-	@SuppressWarnings("unused")
-	private int id;
+	public int id;
 	// 以下是详细信息，用于selectCourtTime.jsp页面
 	public TimeSlot timeSlotList[];
 	public int timeSlotListLen;
@@ -33,7 +32,7 @@ public class Court {
         String sql = "set time_zone = '+8:00'";
         Database.execute(stmt, sql);
         
-		sql = "SELECT from_time, to_time FROM time_slot WHERE court_id = " + this.id + " AND TO_DAYS(from_time) - TO_DAYS(NOW()) between 0 and " + i_thDay;
+		sql = "SELECT timeslot_id, from_time, to_time, status FROM time_slot WHERE court_id = " + this.id + " AND TO_DAYS(from_time) - TO_DAYS(NOW()) between 0 and " + i_thDay;
         ResultSet rs = Database.require(stmt, sql);
         
         this.timeSlotListLen = Database.getResultSize(rs);
@@ -45,7 +44,7 @@ public class Court {
 			while(rs.next() && i < this.timeSlotListLen){
 			    // 通过字段检索
 			    try {
-			    	this.timeSlotList[i] = new TimeSlot(rs.getTimestamp("from_time"), rs.getTimestamp("to_time"));
+			    	this.timeSlotList[i] = new TimeSlot(rs.getInt("timeslot_id"), rs.getTimestamp("from_time"), rs.getTimestamp("to_time"), rs.getBoolean("status"));
 			    	i++;
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -65,11 +64,13 @@ public class Court {
 	public static void main(String[] args) {
 		// 测试程序
 		Court court = new Court(1, "court1");
-		court.getTimeSlotList(0);
+		court.getTimeSlotList(3);
 		System.out.println(court.timeSlotListLen);
 		for(int i = 0 ; i < court.timeSlotListLen;i++) {
-			System.out.println(court.timeSlotList[i].startTime.toString() + "    " + court.timeSlotList[i].endTime.toString());
+			System.out.println(court.timeSlotList[i].id + " " + court.timeSlotList[i].startTime.toString() + "    " + court.timeSlotList[i].endTime.toString() + "    " + court.timeSlotList[i].status);
+			System.out.println(court.timeSlotList[i].status);
+			court.timeSlotList[i].book(new User());
+			System.out.println(court.timeSlotList[i].status);
 		}
 	}
-
 }

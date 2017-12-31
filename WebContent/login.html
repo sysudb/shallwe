@@ -7,6 +7,43 @@
     <title>微信登录中......</title>
 </head>
 
+<style>
+body{
+	background-color: rgb(240,240,240);
+}
+
+.all{
+    position: absolute;  
+    width:100%;
+    height:100%;
+	top: 10%;
+}
+
+.title{
+	color:rgb(200,0,0);
+	text-align:center;
+	font-size:400%;
+	font-family:"Microsoft YaHei";
+	height: 30%;
+}
+
+.text{
+	text-align:center;
+	font-size:150%;
+	font-family:"Microsoft YaHei";
+	height: 10%;
+}
+
+.qrcode{
+	text-align:center;
+	height: 60%;
+}
+
+.qrcode img{
+	width:50%;
+}
+
+</style>
 
 <script>
     /*
@@ -95,9 +132,18 @@
         GWC.doRedirect();
     }
 </script>
-<body onload="login()">
-请先关注本公众号，关注后才能完成自动登陆<br>
-<img src="/shallwe/image/ma.jpg" />
+
+<body onload="login1()">
+<div class="all">
+	<div class="title">SHALL WE</div>
+	<div class="text">
+	扫码下方二维码<br>
+	关注本公众号自动登陆<br>
+	</div>
+	<div class="qrcode">
+	<img src="/shallwe/image/ma.jpg" />
+	</div>
+</div>
 </body>
 
 </html>
