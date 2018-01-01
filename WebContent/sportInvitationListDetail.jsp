@@ -9,7 +9,7 @@
 <style>
 body{background-color: rgb(240,240,240);font-family:"Microsoft YaHei";margin:0;position:relative;width:100%;height:100%}
 
-img{border-radius:100%;width:100%;}
+img{width:100%;}
 
 .head{
 	position:relative;
@@ -20,9 +20,10 @@ img{border-radius:100%;width:100%;}
 
 .back{
 	position:absolute;
-	width:15%;
+	width:8%;
 	top:100%;
-	margin-top:-15%;
+	margin-top:-12%;
+	margin-left:20px;
 }
 
 .title{
@@ -41,7 +42,7 @@ img{border-radius:100%;width:100%;}
 	background-color: white;
 	width:100%;
 	margin-top:20px;
-	height:30%;
+	height:40%;
 }
 
 .info_box{
@@ -61,11 +62,17 @@ img{border-radius:100%;width:100%;}
 .creator_icon{
 	float:left;
 	width:15%;
+	margin-right:20px;
+	position:relative;
+	top:50%;
+	margin-top:-7.5%;
 }
+
+.creator_icon img{border-radius:100%;}
 
 .creator_name{
 	font-size:200%;
-	line-height:400%;
+	line-height:500%;
 }
 
 .slogan,.time,.location,.paytype{
@@ -73,7 +80,7 @@ img{border-radius:100%;width:100%;}
 	height:14%;
 	margin-bottom:15px;
 	font-size:200%;
-	line-height:200%;
+	line-height:300%;
 	border-bottom:1px solid #efefef;
 }
 
@@ -85,6 +92,9 @@ img{border-radius:100%;width:100%;}
 	float:left;
 	width:5%;
 	margin-right:20px;
+	position:relative;
+	top:50%;
+	margin-top:-2.5%;
 }
 
 .participant{
@@ -122,6 +132,8 @@ img{border-radius:100%;width:100%;}
 	height:150px;
 }
 
+.participant_icon img{border-radius:100%;}
+
 .bottom_blank{
 	background-color:rgb(100,200,180);
 	margin-top:20px;
@@ -148,7 +160,7 @@ img{border-radius:100%;width:100%;}
 
 
 <div class="head">
-	<div class="back" onclick="location.href='sportInvitationList.jsp'"><img src="/shallwe/image/create.png"></div>
+	<div class="back" onclick="location.href='sportInvitationList.jsp'"><img src="/shallwe/image/back.png"></div>
 	<div class="title">运动计划详情</div>
 </div>
 <div class="info">
@@ -158,24 +170,24 @@ img{border-radius:100%;width:100%;}
 		<div class="creator_name"><%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].ownerWechatName %></div>
 	</div>
 	<div class="slogan">
-		<div class="slogan_img"><img src="/shallwe/image/create.png"/></div>
+		<div class="slogan_img"><img src="/shallwe/image/slogan.png"/></div>
 		<div><%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].slogan %></div>
 	</div>
 	<div class="time">
-		<div class="time_img"><img src="/shallwe/image/create.png"/></div>
+		<div class="time_img"><img src="/shallwe/image/time.png"/></div>
 		<div><%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].timeslot.startTime.toString().split("\\.")[0]+" - "+user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].timeslot.endTime.toString().split("[. ]")[1] %></div>
 	</div>
 	<div class="location">
-		<div class="location_img"><img src="/shallwe/image/create.png"/></div>
+		<div class="location_img"><img src="/shallwe/image/location2.png"/></div>
 		<div><%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].location%>
 			(<%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].stadium.name%>)</div>
 	</div>
 	<div class="paytype">
-		<div class="paytype_img"><img src="/shallwe/image/create.png"/></div>
+		<div class="paytype_img"><img src="/shallwe/image/paytype.png"/></div>
 		<% if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].costType){ %>
-		<div>AA</div>
+		<div>支付方式：AA</div>
 		<%}else{ %>
-		<div>地主请客</div>
+		<div>支付方式：免费</div>
 		<%} %>
 	</div>
 	</div>

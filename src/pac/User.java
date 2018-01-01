@@ -31,9 +31,9 @@ public class User {//还在设计中，未完待续
 		this.initSuccess = true;
 		//然后在这里把 openid, nickname, sex, province, city, country, headimgurl 手动初始化
 		//以便查看stadium.jsp效果
-		this.openid = "tungkimwa3";
-		this.nickname = "tungkw3";
-		this.sex = "1";
+		this.openid = "0002";
+		this.nickname = "jane";
+		this.sex = "0";
 		this.province = "guangdong";
 		this.city = "guangzhou";
 		this.country = "china";
@@ -189,7 +189,6 @@ public class User {//还在设计中，未完待续
 					}
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				new ErrorRecord(e.toString());
 			}

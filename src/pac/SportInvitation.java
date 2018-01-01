@@ -172,20 +172,37 @@ public class SportInvitation {
 		
         //执行查询
 		Statement stmt = Database.initSatement(conn);
-		
-		String sql = "INSERT INTO activities (slogan, cost, pay_type, sport_type, max_participant, stadium_id, start_time, end_time, creator_id, location) "
-				+ "VALUES("
-					+ "'" + slogan + "',"
-					+ money + ","
-					+ aa + ","
-					+ "'" + sportType + "',"
-					+ totalPeople + ","
-					+ stadium.getId() + ","
-					+ "'" + timeslot.startTime.toString().split("\\.")[0] + "',"
-					+ "'" + timeslot.endTime.toString().split("\\.")[0] + "',"
-					+ "'" + openid + "',"
-					+ "'" + location + "'"
-				+ ")";
+		String sql;
+		if(stadium!=null) {
+			sql = "INSERT INTO activities (slogan, cost, pay_type, sport_type, max_participant, stadium_id, start_time, end_time, creator_id, location) "
+					+ "VALUES("
+						+ "'" + slogan + "',"
+						+ money + ","
+						+ aa + ","
+						+ "'" + sportType + "',"
+						+ totalPeople + ","
+						+ stadium.getId() + ","
+						+ "'" + timeslot.startTime.toString().split("\\.")[0] + "',"
+						+ "'" + timeslot.endTime.toString().split("\\.")[0] + "',"
+						+ "'" + openid + "',"
+						+ "'" + location + "'"
+					+ ")";
+		}
+		else {
+			sql = "INSERT INTO activities (slogan, cost, pay_type, sport_type, max_participant, stadium_id, start_time, end_time, creator_id, location) "
+					+ "VALUES("
+						+ "'" + slogan + "',"
+						+ money + ","
+						+ aa + ","
+						+ "'" + sportType + "',"
+						+ totalPeople + ","
+						+ "null" + ","
+						+ "'" + timeslot.startTime.toString().split("\\.")[0] + "',"
+						+ "'" + timeslot.endTime.toString().split("\\.")[0] + "',"
+						+ "'" + openid + "',"
+						+ "'" + location + "'"
+					+ ")";
+		}
 		if(Database.execute(stmt, sql)) stat = "success";
 		else stat = "create invitation failed";
 		Database.closeStatement(stmt);
@@ -200,7 +217,7 @@ public class SportInvitation {
 		Timestamp start_time = new Timestamp(System.currentTimeMillis());
 		Timestamp end_time = new Timestamp(System.currentTimeMillis());
 		TimeSlot timeslot = new TimeSlot(start_time, end_time);
-		String stat = SportInvitation.makeInvitation("再来一瓶", 100, true,"boxing", 10, stadium, timeslot, "tungkimwa","呵呵");
+		String stat = SportInvitation.makeInvitation("再来一瓶", 100, true,"swimming", 10, null, timeslot, "0001","呵呵");
 		System.out.println(stat);
 	}
 }

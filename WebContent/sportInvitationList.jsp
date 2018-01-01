@@ -8,7 +8,8 @@
 
 <style>
 body{background-color: rgb(240,240,240);font-family:"Microsoft YaHei";margin:0;}
-img{border-radius:100%;width:100%;}
+img{width:100%;}
+.my_icon,.create,.participant,.creator img{border-radius:100%;}
 
 .head{
 	background-color:white;
@@ -26,6 +27,7 @@ img{border-radius:100%;width:100%;}
 	height:auto;
 	bottom:0;
 }
+
 
 .title{
 	position:absolute;
@@ -93,6 +95,7 @@ img{border-radius:100%;width:100%;}
 	top:50%;
 	width:90%;
 	margin-top:-45%;
+	margin-left:10%;
 }
 
 .creator_name{font-size:200%;text-align:center;}
@@ -152,7 +155,10 @@ img{border-radius:100%;width:100%;}
 
 .location_img,.time_img{
 	float:left;
-	width:60px;
+	width:5%;
+	position:relative;
+	top:50%;
+	margin-top:-2.5%;
 	margin-right:20px;
 }
 
@@ -212,7 +218,7 @@ img{border-radius:100%;width:100%;}
 			<div class="my_icon" onclick="window.location.href='me.jsp'"><img src="<%=user.headimgurl %>" /></div>
 			<div class="title">
 				<div class="activity">活动</div>
-				<div class="news">彩蛋</div>
+				<div class="news">咨询</div>
 			</div>
 		</div>
 		<div class="create" onclick="window.location.href='promotSport.jsp'"><img src="/shallwe/image/create.png" /></div>
@@ -237,11 +243,11 @@ img{border-radius:100%;width:100%;}
 							<div><% out.print(user.sportInvitationList[i].slogan); %></div>
 						</div>
 						<div class="time">
-							<div class="time_img"><img src="/shallwe/image/default_icon.jpg"></div>
+							<div class="time_img"><img src="/shallwe/image/time.png"></div>
 							<div><% out.print(user.sportInvitationList[i].timeslot.startTime.toString().split("\\.")[0]); %></div>
 						</div>
 						<div class="location">
-							<div class="location_img"><img src="/shallwe/image/default_icon.jpg"></div>
+							<div class="location_img"><img src="/shallwe/image/location2.png"></div>
 							<div><% out.print(user.sportInvitationList[i].location + "(" + user.sportInvitationList[i].stadium.name + ")"); %></div>
 						</div>
 						<div class="participant">
@@ -253,8 +259,7 @@ img{border-radius:100%;width:100%;}
 								}
 							%>
 							<div class="participant_count">
-								<%=user.sportInvitationList[i].joinPeople %>/
-								<%=user.sportInvitationList[i].totalPeople %>
+								<%=user.sportInvitationList[i].joinPeople %>/<%=user.sportInvitationList[i].totalPeople %>
 							</div>
 						</div>
 					</div>
