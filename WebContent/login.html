@@ -10,38 +10,42 @@
 <style>
 body{
 	background-color: rgb(240,240,240);
+	font-family:"Microsoft YaHei";
+	border:0;
+	margin:0;
 }
 
 .all{
-    position: absolute;  
-    width:100%;
-    height:100%;
-	top: 15%;
+	width:100%;
+	height:100%;
 }
 
 .title{
 	color:rgb(100,220,180);
+	width:100%;
 	text-align:center;
 	font-size:400%;
-	font-family:"Microsoft YaHei";
 	font-weight: bold;
-	height: 30%;
+	ling-height: 200%;
+	margin:20% 0;
 }
 
 .text{
+	width:100%;
 	text-align:center;
 	font-size:150%;
-	font-family:"Microsoft YaHei";
 	height: 10%;
+	margin:10% 0;
 }
 
 .qrcode{
-	text-align:center;
+	width:100%;
 	height: 60%;
 }
 
 .qrcode img{
 	width:50%;
+	margin: 0 25%;
 }
 
 </style>
@@ -134,16 +138,14 @@ body{
     }
 </script>
 
-<body onload="login1()">
+<body onload="login()">
 <div class="all">
 	<div class="title">SHALL WE</div>
 	<div class="text">
-	扫码下方二维码<br>
-	关注本公众号自动登陆<br>
+		扫码下方二维码<br>
+		关注本公众号自动登陆<br>
 	</div>
-	<div class="qrcode">
-	<img src="/shallwe/image/ma.jpg" />
-	</div>
+	<div class="qrcode"><img src="/shallwe/image/ma.jpg" /></div>
 </div>
 </body>
 

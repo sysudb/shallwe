@@ -145,6 +145,7 @@ public class SportInvitation {
 				+ ")";
 		if(Database.execute(stmt, sql)) {
 			this.joinPeople += 1;
+			newParticipant.getSportInvitationList(false);
 			stat = "success";
 		}
 		else stat = "join invitation failed";
@@ -163,6 +164,8 @@ public class SportInvitation {
 		 */
 
         String stat;
+
+        if(totalPeople <= 0) return "wrong maximum of people";
         
 		//创建数据库连接
 		Connection conn = Database.connect();
@@ -197,7 +200,7 @@ public class SportInvitation {
 		Timestamp start_time = new Timestamp(System.currentTimeMillis());
 		Timestamp end_time = new Timestamp(System.currentTimeMillis());
 		TimeSlot timeslot = new TimeSlot(start_time, end_time);
-		String stat = SportInvitation.makeInvitation("再来一瓶", 100, true,"run", 0, stadium, timeslot, "tungkimwa","呵呵");
+		String stat = SportInvitation.makeInvitation("再来一瓶", 100, true,"boxing", 10, stadium, timeslot, "tungkimwa","呵呵");
 		System.out.println(stat);
 	}
 }

@@ -25,11 +25,14 @@ public class User {//还在设计中，未完待续
 	public User(/*这里不能有任何参数，因为设计用于 javabean */) {
 		
 		//【当使用调试模式时把这里手动置为true】
+		/*
+		 * 
+		 */
 		this.initSuccess = true;
 		//然后在这里把 openid, nickname, sex, province, city, country, headimgurl 手动初始化
 		//以便查看stadium.jsp效果
-		this.openid = "tungkimwa2";
-		this.nickname = "tungkw2";
+		this.openid = "tungkimwa3";
+		this.nickname = "tungkw3";
 		this.sex = "1";
 		this.province = "guangdong";
 		this.city = "guangzhou";
@@ -37,12 +40,12 @@ public class User {//还在设计中，未完待续
 		this.sportInvitationListLen = 0;
 		this.headimgurl = "/shallwe/image/default_icon.jpg";
 		regist(this.openid,this.nickname,this.sex,this.province,this.city,this.country,this.headimgurl);
-		this.getMoney();
+		
 	}
 	
 	private String regist(String openid, String nickname, String sex, String province, String city, String country, String iconUrl) {
 		//向数据库注册用户
-		
+		this.getMoney();
         String stat;
         
 		//创建数据库连接
@@ -136,7 +139,10 @@ public class User {//还在设计中，未完待续
         //执行查询
         Statement stmt = Database.initSatement(conn);
         
-		String sql = "SELECT * FROM activities NATURAL JOIN stadium";
+        
+		String sql;
+		if(!my) sql = "SELECT * FROM activities NATURAL JOIN stadium";
+		else sql = "SELECT * FROM activities NATURAL JOIN stadium WHERE activity_id in (SELECT activity_id FROM participate WHERE wechat_id = '" + this.openid + "')";
         ResultSet rs = Database.require(stmt, sql);
         
         //提取查询结果
@@ -307,7 +313,7 @@ public class User {//还在设计中，未完待续
 				for(int j = 0 ; j <user1.sportInvitationList[i].joinPeople;j++) {
 					System.out.println(user1.sportInvitationList[i].participantWechatname[j] + " " + user1.sportInvitationList[i].participantIcon[j]);
 				}
-				if(user1.sportInvitationList[i].ownerWechatName.equals("lj")) {
+				if(user1.sportInvitationList[i].ownerWechatName.equals("tungkw")) {
 					String stat = user1.sportInvitationList[i].joinInvitation(new User());
 					System.out.println(stat);
 				}
