@@ -5,6 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>发布运动计划</title>
+<script src="/shallwe/calendar/lCalendar.js"></script>
+<link rel="stylesheet" href="/shallwe/calendar/lCalendar.css">
 <style type="text/css">
 	body{
 		margin: auto;
@@ -154,8 +156,9 @@
     	color: #ccc;opacity:1;
 	}
 	.sport_time_placeholder{
-		width: 210px;
+		width: 60%;
 		color: #ccc;
+		text-align:left;
 	}
 	.choose_time{
 		float: right;
@@ -195,7 +198,7 @@
     	font-family: cursive;
     	color: white;
 	}
-	/** =============隐藏层样式================= **/
+	/** =============运动类型选择隐藏层样式================= **/
 	@keyframes hidden_bg{
 		0%{
 			-webkit-transform: scale(0);
@@ -228,7 +231,7 @@
 			transform: scale(1);
 		}
 	}
-	#hidden_bg{ 
+	#hidden_bg, #hidden_time_page{ 
 	  	position:absolute;
 	  	left:0px;
 	  	top:0px;
@@ -293,6 +296,87 @@
      	font-size:26px;
      	color: #525252;
      }
+     /** =============日期选择隐藏层样式================= **/
+     .calender{
+     	position:absolute;
+     	width:70%;
+     	height:350px;
+     	top:50%;
+     	left:50%;
+     	margin-left: -35%;
+     	margin-top: -175px;
+     	background:white;
+     }
+     #day_choose{
+     	width:100%;
+     	height:100px;
+     	font-size:30px;
+     	text-align:center;
+     	line-height:100px;
+     	color:#555;
+     	margin:0;
+     }
+     .time_choose:before,.date_btn_box:after{
+     	position: absolute;
+		left: 0;
+		right:0;
+		top: 0;
+		content: "";
+		border-bottom: solid #ddd 2px;	
+     }
+	.date_btn_box:after{
+		top:100px;
+	}
+     .time_choose{
+     	position: relative;
+     	width:100%;
+     	height:150px;
+     }
+     .start_time, .end_time{
+     	width:50%;
+     	height:150px;
+     	float:left;
+     	color:#555;
+     }
+     .start_time p, .end_time p{
+     	width:100%;
+     	height: 45px;
+     	line-height:45px;
+     	text-align:center;
+     	font-size:30px;
+     }
+     .start_text, .end_text{
+     	margin-top: 25px;
+     	margin-bottom:10px;
+     }
+     #start_clock, #end_clock{
+     	margin-left:0;
+     	height: 45px;
+     	line-height:45px;
+    	width: 100%;
+    	text-align: center;
+     }
+     .calender_menu{
+     	width:100%;
+     	height:100px;
+     }
+     .calender_cancel, .calender_submit{
+     	width:50%;
+     	height:100px;
+     	float:left;
+     	font-size:30px;
+     	line-height:100px;
+     	text-align:center;
+     }
+     .calender_cancel p, .calender_submit p{
+     	color:white;
+     }
+     .calender_cancel{
+     	background:#c4c4c4;
+     }
+     .calender_submit{
+     	background:#45bb62;
+     }
 </style>
 </head>
 <body>
@@ -312,8 +396,8 @@
 		</div>
 		<p class = "choose_text">点击可更改运动类型</p>
 	</div>
-	<!-- =============隐藏层开始================= -->
-	<div id = "hidden_bg">
+	<!-- =============运动类型隐藏层开始================= -->
+	<div id = "hidden_bg" onclick="cancel(this)">
 		<div class = "hidden_sport_circle"><img src="/shallwe/image/sport_type/running_white.png"/></div>
 		<div class = "hidden_page">
 			<div class = "sport_container">
@@ -356,17 +440,44 @@
 			</div>
 		</div>
 	</div>
-	<!-- =============隐藏层结束================= -->
+	<!-- =============运动类型隐藏层结束================= -->
 	<div class = "form1">
 		<form class = "sport_slogan first_form">
 			<p>口号</p>
 			<input type="text" name="sport_slogan" placeholder = "请输入一个响亮的口号" onfocus="this.placeholder=''" onblur="this.placeholder='请输入一个响亮的口号'" type = "text">
 		</form>
-		<form class = "sport_time">
+		<form class = "sport_time" onclick="dateShow()">
 			<p>时间</p>
 			<p class = "sport_time_placeholder">请选择运动时间</p>
 			<p class = "choose_time">></p>
 		</form>
+		<!-- =============时间选择隐藏层开始================= -->
+		<div id="hidden_time_page">
+			<div class="calender">
+				<input id = "day_choose" type="text" readonly="" name="input_date" placeholder="请选择日期   2018-01-01" data-lcalendar="2011-01-1,2019-12-31">
+				
+				<div class="time_choose">
+					<div id = "start" class="start_time">
+						<p class="start_text">开&nbsp;始</p>
+						<input id="start_clock" type="text" readonly="" name="input_date" placeholder="16:00">
+					</div>
+					<div id = "end"  class="end_time">
+						<p class="end_text">结&nbsp;束</p>
+						<input id="end_clock" type="text" readonly="" name="input_date" placeholder="16:30">
+					</div>
+				</div>
+				
+				<div class="calender_menu">
+					<div class="calender_cancel" onclick="cancel(document.getElementById('hidden_time_page'))">
+						<p>取消</p>
+					</div>
+					<div class="calender_submit">
+						<p onclick="submit_time()">确定</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- =============时间选择隐藏层结束================= -->
 		<form class = "sport_addr">
 			<p>地点</p>
 			<input type="text" name="address" placeholder = "请输入运动地点" onfocus="this.placeholder=''" onblur="this.placeholder='请输入运动地点'" type = "text">
@@ -399,34 +510,84 @@
 		<p class = "choose_stadium">场馆预定</p>
 		<p class = "choose_stadium_arrow">></p>
 	</div>
-<script>	
-	var count = 0;
-	function changeTextColor(item){
-		parent = item.parentNode;
-		var lists = parent.getElementsByClassName('cost_item');
-		for(var i = 0; i < lists.length; i++){
-			lists[i].style.color="#6e6f6f";
+	<script>	
+		var count = 0;
+		function changeTextColor(item){
+			parent = item.parentNode;
+			var lists = parent.getElementsByClassName('cost_item');
+			for(var i = 0; i < lists.length; i++){
+				lists[i].style.color="#6e6f6f";
+			}
+			item.style.color='#08fe8d';
 		}
-		item.style.color='#08fe8d';
-	}
-	function stadiumChooseButton(button){
-		button.style.background = "#ccc";
-		window.location = "http://localhost/shallwe/chooseStadium.jsp";	
-	}
-	function show(){
-		var hidden_bg = document.getElementById('hidden_bg');
-		hidden_bg.style.display = "block";
-		//hidden_bg.style.height = document.body.scrollHeight + "px";
-	}
-	function hide(item){
-		var hidden_bg = document.getElementById('hidden_bg');
-		hidden_bg.style.display = "none";
-		var text = document.getElementsByClassName('sport_circle')[0].getElementsByTagName("p")[0];
-		var img = document.getElementsByClassName('sport_circle')[0].getElementsByTagName("img")[0];
-		text.style.display = "none";
-		img.style.display = "block";
-		img.src = item.getElementsByTagName("img")[0].src;	
-	}
-</script>
+		function stadiumChooseButton(button){
+			button.style.background = "#ccc";
+			window.location = "http://localhost/shallwe/chooseStadium.jsp";	
+		}
+		function show(){
+			var hidden_bg = document.getElementById('hidden_bg');
+			hidden_bg.style.display = "block";
+			//hidden_bg.style.height = document.body.scrollHeight + "px";
+		}
+		function hide(item){
+			var hidden_bg = document.getElementById('hidden_bg');
+			hidden_bg.style.display = "none";
+			var text = document.getElementsByClassName('sport_circle')[0].getElementsByTagName("p")[0];
+			var img = document.getElementsByClassName('sport_circle')[0].getElementsByTagName("img")[0];
+			text.style.display = "none";
+			img.style.display = "block";
+			img.src = item.getElementsByTagName("img")[0].src;	
+		}
+		function cancel(item){
+			item.style.display = "none";
+		}
+		function dateShow(){
+			var hidden_bg = document.getElementById('hidden_time_page');
+			hidden_bg.style.display = "block";
+			
+		}
+		function submit_time(){
+			var hidden_bg = document.getElementById('hidden_time_page');
+			var output = document.getElementsByClassName("sport_time_placeholder")[0];
+			var date = hidden_bg.getElementsByTagName("input")[0].value;
+			var start_time = hidden_bg.getElementsByTagName("input")[1].value;
+			var end_time = hidden_bg.getElementsByTagName("input")[2].value;
+			var year = date.split("-")[0];
+			var month = date.split("-")[1];
+			var day = date.split("-")[2];
+			if(year == "" || month == "" || day ==""){
+				alert("请选择活动日期！");
+				dateShow();
+				return;
+			}
+			var start_hour = start_time.split(":")[0], end_hour = end_time.split(":")[0];
+			var start_minute = start_time.split(":")[1], end_minute = end_time.split(":")[1];
+			if(start_hour == "" || start_minute == "" || end_hour =="" || end_minute ==""){
+				alert("请选择活动时间段！");
+				dateShow();
+				return;
+			}
+			var time = year + "年" + month + "月" + day + "日  " + start_hour + ":" + start_minute + "~" + end_hour + ":" + end_minute;
+			output.innerHTML = time;
+			cancel(hidden_bg);
+		}
+	</script>
+ 	<script>
+        var calendar = new lCalendar();
+         calendar.init({
+             'trigger': '#day_choose',
+             'type': 'date'
+            });
+ 		var calendartime = new lCalendar();
+ 	    calendartime.init({
+ 	         'trigger': '#start_clock',
+ 	         'type': 'time'
+ 	    });
+ 		var calendartime = new lCalendar();
+ 	        calendartime.init({
+ 	            'trigger': '#end_clock',
+ 	            'type': 'time'
+ 	   });
+	</script>
 </body>
 </html>
