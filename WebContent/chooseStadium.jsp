@@ -102,6 +102,9 @@
 		width:100%;
 		height:190px;
 	}
+	.stadium:hover{
+		background:#86c5a4;
+	}
 	.stadium:before{
 		position: absolute;
 		left: 0;
@@ -211,7 +214,7 @@
 		<%
 		for(int i = 0; i < 8; i++){
 			%>
-			<div class="stadium">
+			<div class="stadium" onclick="window.location = 'http://localhost/shallwe/stadiumReservation.jsp'">
 			<img src="/shallwe/image/stadium.png">
 			<div class = "stadium_info">
 				<div class="stadium_name">
