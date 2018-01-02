@@ -6,9 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-//import java.sql.PreparedStatement;
-
-import pac.Stadium;
 
 public class SportInvitation2 {
 	// 以下是粗略信息，用于显示在sportsInvitationList.jsp页面上

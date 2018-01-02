@@ -20,9 +20,9 @@
 	}
 	.header{
 		width: 100%;
-		height: 145px;
+		height: 180px;
 		background:white;
-		margin-bottom: 38px;
+		margin-bottom: 50px;
 		box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.05);
 		-webkit-box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.05);
 	}
@@ -35,19 +35,28 @@
 	.title{
 		float: left;
 		width: 100%;
-    	height: 45px;
+    	height: 80px;
+	}
+	.title a{
+		float:left;
+		height: 80px;
+	}
+	.title img{
+		width:50px;
+		height:50px;
+		margin: 15px 0 15px 40px;
 	}
 	.release_sport{
 		float: left;
-		width:100%;
+		width:80%;
 		font-size: 36px;
-    	line-height: 45px;
+    	line-height: 80px;
 	}
 	.release_sport_button{
 		position: absolute;
-		right:44px;
+		right:40px;
 		font-size: 30px;
-    	line-height: 45px;
+    	line-height: 80px;
 	}
 	.release_sport p{
 		float: left;
@@ -55,7 +64,7 @@
 	}
 	.choose_sport_type{
 		width: 100%;
-		height: 222px;
+		height: 250px;
 	}
 	.add_sport{
 		margin: 0 auto;
@@ -82,17 +91,18 @@
 		width: 100%;
     	font-size: 30px;
     	color: #9a9c9b;
+    	margin-top:25px;
 	}
 	.form1{
 		width: 100%;
-		height: 420px;
+		height: 480px;
 		background: white;
 		box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.05);
 		-webkit-box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.05);
 	}
 	.form2{
 		width: 100%;
-		height:314px;
+		height:370px;
 		margin-top: 20px;
 		background: white;
 		box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.05);
@@ -100,8 +110,8 @@
 	}
 	.button{
 		width: 100%;
-		height:75px;
-		margin-top: 30px;
+		height:120px;
+		margin-top: 40px;
 		margin-bottom:70px;
 		background: #86c5a4;
 		box-shadow: 0px 4px 4px 0 rgba(134,197,164,0.05);
@@ -109,14 +119,14 @@
 	}
 	form{
 		width:100%;
-		height:100px;
+		height:120px;
 	}
 	form p{
 	    float: left;
 	    font-size: 36px;
 	    width: 80px;
-	    height: 100px;
-	    line-height: 100px;
+	    height: 120px;
+	    line-height: 120px;
 	    margin-left: 40px;
 	    color: #494949;
 	}
@@ -139,8 +149,8 @@
 	}
 	input,.sport_time_placeholder{
 		border: none;
-    	height: 100px;
-    	line-height: 100px;
+    	height: 120px;
+    	line-height: 120px;
     	margin-left: 100px;
     	font-size: 30px;
 	}
@@ -177,7 +187,7 @@
 		margin-left:80px;
 	}
 	.cost_item input{
-		width: 100px;
+		width: 120px;
     	margin: 0 10px;
     	border: 1px solid #bfbfbf;
     	height: 50px;
@@ -189,12 +199,12 @@
     	margin: 0 auto;
     	font-size: 36px;
     	color: white;
-    	line-height: 75px;
+    	line-height: 120px;
 	}   
 	.choose_stadium_arrow{
 		position: absolute;
     	right: 60px;
-    	line-height: 75px;
+    	line-height: 120px;
     	font-size: 40px;
     	font-family: cursive;
     	color: white;
@@ -387,6 +397,9 @@
 	<div class = "header">
 		<div class = "title_wrapper">
 			<div class = "title">
+				<a href="http://localhost/shallwe/sportInvitationList.jsp">
+						<img src="/shallwe/image/back.png">
+				</a>
 				<p class = "release_sport">发布运动计划</p>
 				<p class = "release_sport_button" onclick = "submit_activity()">发布</p>
 			</div>		
@@ -545,8 +558,11 @@
 		}
 		
 		function stadiumChooseButton(button){
-			button.style.background = "#ccc";
-			window.location = "http://localhost/shallwe/chooseStadium.jsp";	
+			var drop = window.confirm("此操作将清空表单内容，是否继续？");
+			if(drop){
+				button.style.background = "#ccc";
+				window.location = "http://localhost/shallwe/chooseStadium.jsp";	
+			}
 		}
 		
 		function show(){

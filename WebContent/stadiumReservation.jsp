@@ -243,11 +243,11 @@
 						for(int j = 0; j < 5; j++){
 							if(j==0){
 								%>
-								<td style="background:#ccc" onclick="book(this)">¥ 60</td>
+								<td style="background:#ccc" onclick="book(this,<%=i%>,<%=j%>)">¥ 60</td>
 								<% 
 							}else{
 								%>
-								<td onclick="book(this)">¥ 60</td>
+								<td onclick="book(this,<%=i%>,<%=j%>)">¥ 60</td>
 								<% 
 							}
 						}
@@ -271,7 +271,8 @@
 	
 	<script>
 		var total = 0;
-		function book(item){
+		function book(item,i,j){
+			console.log(i+" "+j);
 			if(item.style.background == "rgb(204, 204, 204)"){
 				alert("此场地已被预订，请重新选择！")
 				return;
