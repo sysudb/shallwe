@@ -1,2 +1,9 @@
 build
 .settings
+*.class
+*.class
+*.class
+*.class
+build/classes/pac/Court.class
+*.class
+*.class

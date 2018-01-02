@@ -67,7 +67,7 @@ public class SportInvitation2 {
 				+ "FROM user "
 				+ "WHERE wechat_id = ( "
 					+ "SELECT creator_id "
-					+ "FROM activities "
+					+ "FROM sport_activities "
 					+ "WHERE activity_id = " + this.activityId + ")";
         ResultSet rs = Database.require(stmt, sql);
         
