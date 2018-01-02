@@ -397,7 +397,7 @@
 	<div class = "header">
 		<div class = "title_wrapper">
 			<div class = "title">
-				<a href="http://localhost/shallwe/sportInvitationList.jsp">
+				<a href="sportInvitationList.jsp">
 						<img src="/shallwe/image/back.png">
 				</a>
 				<p class = "release_sport">发布运动计划</p>

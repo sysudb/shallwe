@@ -212,6 +212,15 @@ img{width:100%;}
 
 </style>
 
+<input type="hidden" id="refreshed" value="no">
+<script type="text/javascript">
+onload=function(){
+var e=document.getElementById("refreshed");
+if(e.value=="no")e.value="yes";
+else{e.value="no";location.reload();}
+}
+</script >
+
 <body>
 <% request.setCharacterEncoding("UTF-8"); %>
 <jsp:useBean id="user" scope="session" class="pac.User" />

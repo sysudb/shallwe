@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 
 public class SportInvitation2 {
 	// 以下是粗略信息，用于显示在sportsInvitationList.jsp页面上
-	private int activityId;
+	private long activityId;
 	public String sportType;
 	public String slogan;
 	public TimeSlot timeslot;//这里面包含了详细的时间信息
@@ -24,7 +24,7 @@ public class SportInvitation2 {
 	//public String court;
 	
 	public SportInvitation2(
-			int 		activityId,
+			long 		activityId,
 			String 		sportType,
 			String 		slogan,
 			TimeSlot	timeslot,
@@ -48,7 +48,7 @@ public class SportInvitation2 {
 		this.discription = discription;
 	}
 	
-	public int getId(){
+	public long getId(){
 		return this.activityId;
 	}
 	
@@ -126,6 +126,11 @@ public class SportInvitation2 {
 		
         String stat;
         
+        if(this.joinPeople>=this.totalPeople && this.totalPeople != -1) return "已满";
+        if(this.sexneed!=1) {
+        	if(2 - this.sexneed != Integer.valueOf(newParticipant.sex)) return "性别不符";
+        }
+        
 		//创建数据库连接
 		Connection conn = Database.connect();
 		
@@ -134,7 +139,7 @@ public class SportInvitation2 {
 		
 		String sql = "SELECT wechat_id FROM participate where activity_id = " + this.activityId + " and wechat_id = '" + newParticipant.openid + "'";
 		ResultSet rs = Database.require(stmt, sql);
-		if(Database.getResultSize(rs) > 0) return "joined";
+		if(Database.getResultSize(rs) > 0) return "已在组中";
 		
 		sql = "INSERT INTO participate (wechat_id, activity_id) "
 				+ "VALUES("
@@ -143,9 +148,10 @@ public class SportInvitation2 {
 				+ ")";
 		if(Database.execute(stmt, sql)) {
 			this.joinPeople += 1;
-			stat = "success";
+			stat = "加入成功";
+			newParticipant.getSportInvitationList(false);
 		}
-		else stat = "join invitation failed";
+		else stat = "加入失败";
 		Database.closeStatement(stmt);
         
         //关闭连接   !!!一定要关闭，释放资源

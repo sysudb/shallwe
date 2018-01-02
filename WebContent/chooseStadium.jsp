@@ -225,7 +225,7 @@
 			list.getAllStadiumList();
 		for(int i = 0; i < list.listLen; i++){
 			%>
-			<div class="stadium" onclick="window.location = 'http://localhost/shallwe/stadiumReservation.jsp'">
+			<div class="stadium" onclick="window.location = 'stadiumReservation.jsp'">
 			<img src="/shallwe/image/stadium.png">
 			<div class = "stadium_info">
 				<div class="stadium_name">

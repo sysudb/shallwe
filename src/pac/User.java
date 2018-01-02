@@ -27,8 +27,6 @@ public class User {//还在设计中，未完待续
 		//【当使用调试模式时把这里手动置为true】
 		/*
 		
-		 * 
-		 */
 		this.initSuccess = true;
 		//然后在这里把 openid, nickname, sex, province, city, country, headimgurl 手动初始化
 		//以便查看stadium.jsp效果
@@ -41,6 +39,8 @@ public class User {//还在设计中，未完待续
 		this.sportInvitationListLen = 0;
 		this.headimgurl = "/shallwe/image/default_icon.jpg";
 		regist(this.openid,this.nickname,this.sex,this.province,this.city,this.country,this.headimgurl);
+		 * 
+		 */
 	}
 	
 	private String regist(String openid, String nickname, String sex, String province, String city, String country, String iconUrl) {
@@ -72,7 +72,7 @@ public class User {//还在设计中，未完待续
         
         //关闭连接   !!!一定要关闭，释放资源
         Database.disconect(conn);
-		return stat;//仅为了消灭没有返回值的错误提示
+		return stat;
 	}
 	
 	public void init(String code) {
@@ -152,7 +152,7 @@ public class User {//还在设计中，未完待续
 			    // 通过字段检索
 			    try {
 			    	this.sportInvitationList[i] = new SportInvitation2(
-						rs.getInt("activity_id"),
+						rs.getLong("activity_id"),
 						rs.getString("sport_type"),
 						rs.getString("slogan"),
 						new TimeSlot(rs.getTimestamp("start_time"),rs.getTimestamp("end_time")),
