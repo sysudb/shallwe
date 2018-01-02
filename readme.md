@@ -7,6 +7,14 @@
 - 完成活动发布页面以及场馆选择页面的后台逻辑处理；
 
 
+### 2018/01/02 01:00 by剑华
+- 更新了后端代码，补充了筛选自己相关活动接口以及一些细节
+- 改进了数据库的依赖关系
+- 完成了前端页面：
+	- login.html
+	- sportInvitationList.jsp
+	- sportInvitationListDetail.jsp
+
 ### 2017/12/30 10:00 by剑华
 - 修改了数据库结构，更新了数据库图(shallwe\src\pac\shallwe_db.png)
 - 实现了后端逻辑（附加使用手册）

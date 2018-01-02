@@ -7,62 +7,64 @@
 </head>
 
 <style>
-body{
-	background-color: rgb(240,240,240);
-	font-family:"Microsoft YaHei";
-	margin:0;
-}
-
-img{
-	border-radius:100%;
-	width:100%;
-}
-
-a{
-	text-decoration:none;
-	color:black;
-}
+body{background-color: rgb(240,240,240);font-family:"Microsoft YaHei";margin:0;}
+img{width:100%;}
+.my_icon,.create,.participant,.creator img{border-radius:100%;}
 
 .head{
-	background-color: white;
-	display: flex;
+	background-color:white;
+	position:fixed;
+	top:0;
+	left:0;
 	width:100%;
-	height:15%;
+	height:200px;
+	z-index:99999;
 }
 
 .my_icon{
-	width:20%;
-	height:0;
-	padding-bottom:20%;
 	position:absolute;
-	bottom:85%;
-	left:0;
+	width:15%;
+	height:auto;
+	bottom:0;
 }
+
 
 .title{
-	width:100%;
-	height:0%;
-	padding-bottom:15%;
-	text-align:center;
 	position:absolute;
-	bottom:85%;
+	width:400px;
+	height:100px;
+	text-align:center;
+	bottom:20px;
+	left:50%;
+	margin-left:-200px;
 }
 
-.title div{
-	width:20%;
-	margin:0 40%;
-	text-align:center;
-	font-size:400%;
-	font-weight:bold;
+.title .activity,.news{
+	position:absolute;
+	width:200px;
+	height:100px;
+	font-size:300%;
+	line-height:200%;
+}
+.title .activity{
+	left:0;
+	border-radius:40px 0 0 40px;
+	background-color:rgb(100,200,180);
+	color:white;
+	}
+.title .news{
+	right:0;
+	border-radius:0 40px 40px 0;
+	background-color:rgb(240,240,240);
+	color:black;
 }
 
 .create{
-	position:absolute;
-	width:20%;
-	height:0%;
-	padding-bottom:20%;
-	left:80%;
-	bottom:85%;
+	position:fixed;
+	width:15%;
+	bottom:100px;;
+	right:20px;
+	border-radius:10px;
 }
 
 .list{
@@ -71,63 +73,128 @@ a{
 	width:100%;
 }
 
-.invitation{
-	background-color:white;
-	width:100%;
-	height:300px;
-	margin:10 0 0 0;
+.empty{
+	height:200px;
 }
 
-.slogan{
-	display:flex;
-	flex-flow:row;
+.invitation{
+	border-radius:10px;
+	width:100%;
+	height:300px;
+	margin:40 0 0 0;
+}
+
+.creator_box{
+	float:left;
+	width:15%;
+	height:100%;
+}
+
+.creator{
+	position:relative;
+	top:50%;
+	width:90%;
+	margin-top:-45%;
+	margin-left:10%;
+}
+
+.creator_name{font-size:200%;text-align:center;}
+
+.triangle_box{
+	width:5%;
+	height:100%;
+	float:left;
+}
+
+.triangle{
+	width: 0;  
+    height: 0;  
+    border-top: 15px solid transparent;  
+    border-right: 30px solid white;  
+    border-bottom: 15px solid transparent;
+	float:right;
+	position:relative;
+	top:50%;
+	margin-top:-15px;
+}
+
+.info_box{
+	background-color:white;
+	float:right;
+	width:80%;
+	height:100%;
+}
+
+.info{
+	float:right;
 	width:95%;
-	margin-left:5%;
+	height:260;
+	margin: 20px 0 20px 5%;
+}
+ 
+.slogan{
+	width:100%;
 	font-size:250%;
 	height:30%;
+	line-height:200%;
 }
 
 .slogan_img{
+	float:left;
 	width:90px;
+	margin-right:20px;
 }
 
-.location{
-	display:flex;
-	flex-flow:row;
-	width:95%;
-	margin-left:5%;
+.location,.time{
+	float:left;
+	width:100%;
 	font-size:200%;
 	height:20%;
+	line-height:200%;
 }
 
-.location_img{
-	width:60px;
-}
-
-.time{
-	display:flex;
-	flex-flow:row;
-	width:95%;
-	margin-left:5%;
-	font-size:200%;
-	height:20%;
-}
-
-.time_img{
-	width:60px;
+.location_img,.time_img{
+	float:left;
+	width:5%;
+	position:relative;
+	top:50%;
+	margin-top:-2.5%;
+	margin-right:20px;
 }
 
 .participant{
-	display:flex;
-	flex-flow:row;
-	width:95%;
-	margin-left:5%;
+	float:left;
+	width:100%;
 	height:30%;
 }
 
-.participant div{
+.participant_men{
+	float:left;
+	position:relative;
 	width:8%;
+	top: 50%;
+	margin-top:-4%;
+	margin-right:20px;
 }
+
+.participant_count{
+	width:15%;
+	height:80%;
+	float:right;
+	margin-right:100px;
+	font-size:200%;
+	text-align:center;
+	line-height:200%;
+	background-color:rgb(240,240,240);
+	border-radius:20px 20px 20px 20px;
+}
+
+.head{
+	box-shadow:0px 5px 14px 6px rgba(200,200,200,0.2);
+} 
+.info_box{
+	box-shadow:-2px 7px 6px rgba(200,200,200,0.3);
+} 
 
 </style>
 
@@ -146,52 +213,60 @@ a{
 		</script>
 		<%
 	}
-	else {
-		//alert("微信自动登录成功！");
-		//###############
-		//#在这里生成网页#
-		//###############
-		//下面的内容是可以删的%>
+	else {%>
 		<div class="head">
-			<div class="my_icon"><img src="<%=user.headimgurl %>" /></div>
-			<div class="title"><div>活动</div></div>
-			<div class="create"><img src="/shallwe/image/default_icon.jpg" /></div>
+			<div class="my_icon" onclick="window.location.href='me.jsp'"><img src="<%=user.headimgurl %>" /></div>
+			<div class="title">
+				<div class="activity">活动</div>
+				<div class="news">咨询</div>
+			</div>
 		</div>
+		<div class="create" onclick="window.location.href='promotSport.jsp'"><img src="/shallwe/image/create.png" /></div>
+		<div class="empty"></div>
 		<div class="list">
-			<%
-				user.getSportInvitationList(false); 
-				for(int i = 0 ; i < user.sportInvitationListLen; i++){
-					%>
-					<a  href="sportInvitationListDetail.jsp?id=<%= i %>">
-					<div class="invitation">
+			<%user.getSportInvitationList(false); 
+			for(int i = 0 ; i < user.sportInvitationListLen; i++){%>
+			<div class="invitation" >
+				<div class="creator_box">
+					<div class="creator">
+						<div class="creator_icon"><img src="<%=user.sportInvitationList[i].ownerIcon %>"></div>
+						<div class="creator_name"><%=user.sportInvitationList[i].ownerWechatName %></div>
+					</div>
+				</div>
+				<div class="triangle_box">
+					<div class="triangle"></div>
+				</div>
+				<div class="info_box" onclick="window.location.href='sportInvitationListDetail.jsp?id=<%=i%>'">
+					<div class="info">
 						<div class="slogan">
-							<div class="slogan_img"><img src="/shallwe/image/default_icon.jpg"></div>
+							<div class="slogan_img"><img src="/shallwe/image/sport_type/<%=user.sportInvitationList[i].sportType %>.png"></div>
 							<div><% out.print(user.sportInvitationList[i].slogan); %></div>
 						</div>
 						<div class="time">
-							<div class="time_img"><img src="/shallwe/image/default_icon.jpg"></div>
+							<div class="time_img"><img src="/shallwe/image/time.png"></div>
 							<div><% out.print(user.sportInvitationList[i].timeslot.startTime.toString().split("\\.")[0]); %></div>
 						</div>
 						<div class="location">
-							<div class="location_img"><img src="/shallwe/image/default_icon.jpg"></div>
+							<div class="location_img"><img src="/shallwe/image/location2.png"></div>
 							<div><% out.print(user.sportInvitationList[i].location + "(" + user.sportInvitationList[i].stadium.name + ")"); %></div>
 						</div>
 						<div class="participant">
 							<%
 								for(int j = 0; j < user.sportInvitationList[i].joinPeople && j < 5;j++){
 									%>
-									<div><img src="<% out.print(user.sportInvitationList[i].participantIcon[j]);%>" /></div>
+									<div class="participant_men"><img src="<% out.print(user.sportInvitationList[i].participantIcon[j]);%>" /></div>
 									<%
 								}
 							%>
+							<div class="participant_count">
+								<%=user.sportInvitationList[i].joinPeople %>/<%=user.sportInvitationList[i].totalPeople %>
+							</div>
 						</div>
 					</div>
-					</a>
-					<% 
-				}
-			%>
+				</div>
+			</div>
+			<%}%>
 		</div>
-	<%}
-%>
+	<%}%>
 </body>
 </html>

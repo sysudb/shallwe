@@ -96,7 +96,7 @@ public class Court {
 		court.getTimeSlotList(3);
 		System.out.println(court.timeSlotListLen);
 		for(int i = 0 ; i < court.timeSlotListLen;i++) {
-			System.out.println(court.timeSlotList[i].getId() + " " + court.timeSlotList[i].startTime.toString() + "    " + court.timeSlotList[i].endTime.toString() + "    " + court.timeSlotList[i].getStatud());
+			System.out.println(court.timeSlotList[i].getId() + " " + court.timeSlotList[i].startTime.toString() + "    " + court.timeSlotList[i].endTime.toString() + "    " + court.timeSlotList[i].getStatus());
 			court.book(new User(), court.timeSlotList[i].getId());
 		}
 	}

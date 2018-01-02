@@ -28,7 +28,7 @@ public class TimeSlot {
 		return this.id;
 	}
 	
-	public boolean getStatud() {
+	public boolean getStatus() {
 		return this.status;
 	}
 	
