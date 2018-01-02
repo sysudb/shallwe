@@ -37,15 +37,15 @@ public class SportInvitation2 {
 			) {
 		// 构造函数
 		this.activityId = activityId;
-		this.slogan = slogan;
 		this.sportType = sportType;
-		this.payType = payType;
+		this.slogan = slogan;
 		this.timeslot = timeslot;
+		this.location = location;
+		this.payType = payType;
 		this.joinPeople = joinPeople;
 		this.totalPeople = totalPeople;
 		this.sexneed = sexneed;
 		this.discription = discription;
-		this.location = location;
 	}
 	
 	public int getId(){
@@ -96,15 +96,15 @@ public class SportInvitation2 {
         
         this.participantWechatname = new String[this.joinPeople];
         this.participantIcon = new String[this.joinPeople];
-        int i = 0;
+        int k = 0;
         //提取查询结果
         try {
-			while(rs.next()){
+			while(rs.next() && k < this.joinPeople){
 			    // 通过字段检索
 			    try {
-					this.participantWechatname[i] = rs.getString("wechat_name");
-					this.participantIcon[i] = rs.getString("icon_url");
-					i++;
+					this.participantWechatname[k] = rs.getString("wechat_name");
+					this.participantIcon[k] = rs.getString("icon_url");
+					k++;
 				} catch (SQLException e) {
 					e.printStackTrace();
 					new ErrorRecord(e.toString());
@@ -154,7 +154,7 @@ public class SportInvitation2 {
 	}
 	
 	public static String makeInvitation2(
-			int 		activityId,
+			long 		activityId,
 			String		openId,
 			String 		sportType,
 			String 		slogan,

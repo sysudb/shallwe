@@ -71,8 +71,9 @@ img{width:100%;}
 .creator_icon img{border-radius:100%;}
 
 .creator_name{
+	height:100%;
 	font-size:200%;
-	line-height:500%;
+	line-height:700%;
 }
 
 .slogan,.time,.location,.paytype,.sextype,.discription{

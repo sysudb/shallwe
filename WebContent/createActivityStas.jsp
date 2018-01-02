@@ -25,6 +25,8 @@
 	String detail = request.getParameter("hidden_sport_detail");
 	String openid = user.openid;
 	
+	long activity_id = System.currentTimeMillis();
+	
 	List<String> ss = new ArrayList<String>();
 	for(String sss:time.replaceAll("[^0-9]", ",").split(",")){
         if (sss.length()>0)
@@ -48,7 +50,7 @@
     } 
 	
 	TimeSlot timeslot = new TimeSlot(start_time, end_time);
-	String stat = SportInvitation2.makeInvitation2(1060, openid, sport_type, slogan, timeslot, location, cost, sporter_count, sporter_sex, detail);	
+	String stat = SportInvitation2.makeInvitation2(activity_id, openid, sport_type, slogan, timeslot, location, cost, sporter_count, sporter_sex, detail);	
 	
 	if(stat == "success"){
 %>

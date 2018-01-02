@@ -27,6 +27,7 @@ img{width:100%;}
 	height:auto;
 	bottom:0;
 	margin: 26px;
+	z-index:1000;
 }
 .shallwe{
 	position:absolute;
