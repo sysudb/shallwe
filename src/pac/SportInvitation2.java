@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 
 public class SportInvitation2 {
 	// 以下是粗略信息，用于显示在sportsInvitationList.jsp页面上
-	private int activityId;
+	private long activityId;
 	public String sportType;
 	public String slogan;
 	public TimeSlot timeslot;//这里面包含了详细的时间信息
@@ -24,7 +24,7 @@ public class SportInvitation2 {
 	//public String court;
 	
 	public SportInvitation2(
-			int 		activityId,
+			long 		activityId,
 			String 		sportType,
 			String 		slogan,
 			TimeSlot	timeslot,
@@ -48,7 +48,7 @@ public class SportInvitation2 {
 		this.location = location;
 	}
 	
-	public int getId(){
+	public long getId(){
 		return this.activityId;
 	}
 	
@@ -154,7 +154,7 @@ public class SportInvitation2 {
 	}
 	
 	public static String makeInvitation2(
-			int 		activityId,
+			long 		activityId,
 			String		openId,
 			String 		sportType,
 			String 		slogan,

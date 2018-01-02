@@ -265,7 +265,7 @@
 			<p id="total">0</p>
 		</div>
 		<div class="checkPay">
-			<p>确认支付</p>
+			<p>确认预定</p>
 		</div>
 	</div>
 	

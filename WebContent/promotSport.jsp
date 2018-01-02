@@ -561,7 +561,7 @@
 			var drop = window.confirm("此操作将清空表单内容，是否继续？");
 			if(drop){
 				button.style.background = "#ccc";
-				window.location = "http://localhost/shallwe/chooseStadium.jsp";	
+				window.location = "chooseStadium.jsp";	
 			}
 		}
 		
