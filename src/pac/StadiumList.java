@@ -37,7 +37,46 @@ public class StadiumList {
 			while(rs.next() && i < this.listLen){
 			    // 通过字段检索
 			    try {
-			    	this.list[i] = new Stadium(rs.getInt("stadium_id"), rs.getString("stadium_name"), rs.getString("address"));
+			    	this.list[i] = new Stadium(rs.getInt("stadium_id"), rs.getString("stadium_name"), rs.getString("address"),
+			    			                   rs.getDouble("distance"),rs.getDouble("price"),rs.getInt("grade"),rs.getBoolean("vip"));
+			    	i++;
+				} catch (SQLException e) {
+					e.printStackTrace();
+					new ErrorRecord(e.toString());
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			new ErrorRecord(e.toString());
+		}
+		
+        //关闭连接   !!!一定要关闭，释放资源
+		Database.closeStatement(stmt);
+        Database.disconect(conn);
+	}
+	
+	public void getAllStadiumList() {
+		//获取所有的场馆信息
+		
+		//创建数据库连接
+		Connection conn = Database.connect();
+				
+		//执行查询
+		Statement stmt = Database.initSatement(conn);
+		        
+		String sql = "SELECT DISTINCT stadium_id, stadium_name, address, distance, price, grade, vip FROM stadium";
+		ResultSet rs = Database.require(stmt, sql);
+		        
+		this.listLen = Database.getResultSize(rs);
+		
+		this.list = new Stadium[this.listLen];
+        try {
+        	int i = 0;
+			while(rs.next() && i < this.listLen){
+			    // 通过字段检索
+			    try {
+			    	this.list[i] = new Stadium(rs.getInt("stadium_id"), rs.getString("stadium_name"), rs.getString("address"),
+			    			                   rs.getDouble("distance"),rs.getDouble("price"),rs.getInt("grade"),rs.getBoolean("vip"));
 			    	i++;
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -56,9 +95,11 @@ public class StadiumList {
 	
 	public static void main(String[] args) {
 		StadiumList list = new StadiumList();
-		list.getStadiumListBySportType("run");
+		//list.getStadiumListBySportType("run");
+		list.getAllStadiumList();
 		for(int i = 0 ; i < list.listLen; i++) {
-			System.out.println(list.list[i].name + " " + list.list[i].address);
+			System.out.println(list.list[i].name + " " + list.list[i].address + " " + list.list[i].distance
+					           + " " + list.list[i].price + " " + list.list[i].grade + " " + list.list[i].vip);
 		}
 	}
 }

@@ -181,6 +181,7 @@
     	margin: 0 10px;
     	border: 1px solid #bfbfbf;
     	height: 50px;
+    	text-align: center;
 	}
 	.choose_stadium{
 		width: 100%;
@@ -382,17 +383,18 @@
 <body>
 	<% request.setCharacterEncoding("UTF-8"); %>
 	<jsp:useBean id="user" scope="session" class="pac.User" />
+	
 	<div class = "header">
 		<div class = "title_wrapper">
 			<div class = "title">
 				<p class = "release_sport">发布运动计划</p>
-				<p class = "release_sport_button">发布</p>
+				<p class = "release_sport_button" onclick = "submit_activity()">发布</p>
 			</div>		
 		</div>
 	</div>
 	<div class = "choose_sport_type">
 		<div class = "add_sport" onclick = "show()">
-			<div class = "sport_circle"><p>+</p><img style ="padding: 14px; display:none" src=""></div>
+			<div class = "sport_circle"><p>+</p><img style ="padding: 14px; display:none"></div>
 		</div>
 		<p class = "choose_text">点击可更改运动类型</p>
 	</div>
@@ -404,7 +406,7 @@
 
 				<%
 					String[][] img_name = {
-											{"exercise","basketball","soccer","cycling","boxing"},
+											{"running","basketball","soccer","cycling","boxing"},
 											{"trekking","canoe","skateboarding","horseback-riding","fitness"},
 											{"tennis","swimming","dragon-boat","ping-pong","badminton"},
 											{"volleyball","baseball","windsurfing","wrestling","yoga"},
@@ -448,7 +450,7 @@
 		</form>
 		<form class = "sport_time" onclick="dateShow()">
 			<p>时间</p>
-			<p class = "sport_time_placeholder">请选择运动时间</p>
+			<p class = "sport_time_placeholder" name="sport_time">请选择运动时间</p>
 			<p class = "choose_time">></p>
 		</form>
 		<!-- =============时间选择隐藏层开始================= -->
@@ -484,51 +486,75 @@
 		</form>
 		<form class = "sport_cost">
 			<p>费用</p>
-			<p class = "cost_item cost_item_first" onclick = "changeTextColor(this)">免费</p>
-			<p class = "cost_item" onclick = "changeTextColor(this)">我请客</p>
-			<p class = "cost_item" onclick = "changeTextColor(this)">AA</p>
+			<p class = "cost_item cost_item_first" onclick = "changeTextColor(this,1)">免费</p>
+			<p class = "cost_item" onclick = "changeTextColor(this,2)">我请客</p>
+			<p class = "cost_item" onclick = "changeTextColor(this,3)">AA</p>
 		</form>
 	</div>
 	<div class = "form2">
 		<form class = "sporter_count first_form">
 			<p>人数</p>
-			<p class = "cost_item cost_item_first" onclick = "changeTextColor(this)">不限</p>
-			<p class = "cost_item" style = "width: 220px" onclick = "changeTextColor(this)">或<input type="text" name="sporter_count">人</p>
+			<p class = "cost_item cost_item_first" onclick = "changeTextColor(this,1)">不限</p>
+			<p class = "cost_item" style = "width: 220px" onclick = "changeTextColor(this,2)">或<input type="text" name="sporter_count">人</p>
 		</form>
 		<form class = "sporter_sex">
 			<p>性别</p>
-			<p class = "cost_item cost_item_first" onclick = "changeTextColor(this)">不限</p>
-			<p class = "cost_item" onclick = "changeTextColor(this)">只限男</p>
-			<p class = "cost_item" onclick = "changeTextColor(this)">只限女</p>
+			<p class = "cost_item cost_item_first" onclick = "changeTextColor(this,1)">不限</p>
+			<p class = "cost_item" onclick = "changeTextColor(this,2)">只限男</p>
+			<p class = "cost_item" onclick = "changeTextColor(this,3)">只限女</p>
 		</form>
 		<form class = "sport_disp">
 			<p>介绍</p>
-			<input name="sport_slogan" placeholder = "请详细描述计划内容" onfocus="this.placeholder=''" onblur="this.placeholder='请详细描述计划内容'" type = "text">
+			<input name="sport_detail" placeholder = "请详细描述计划内容" onfocus="this.placeholder=''" onblur="this.placeholder='请详细描述计划内容'" type = "text">
 		</form>
 	</div>
 	<div class = "button" onclick = "stadiumChooseButton(this)">
-		<p class = "choose_stadium">场馆预定</p>
+		<p class = "choose_stadium">预定场馆</p>
 		<p class = "choose_stadium_arrow">></p>
 	</div>
+	<!-- =============虚拟表单隐藏层开始================= -->
+	<form class = "hidden_form" style="display:none" action="createActivityStas.jsp" method="post">
+		<input name = "hidden_sport_type" type = "text">
+		<input name = "hidden_slogan" type = "text">
+		<input name = "hidden_time" type = "text">
+		<input name = "hidden_location" type = "text">
+		<input name = "hidden_sport_cost" type = "text">
+		<input name = "hidden_sporter_count" type = "text">
+		<input name = "hidden_sporter_sex" type = "text">
+		<input name = "hidden_sport_detail" type = "text">
+		<input name = "hidden_submit" type = "submit">
+	</form>
+	<!-- =============虚拟表单隐藏层结束================= -->
 	<script>	
 		var count = 0;
-		function changeTextColor(item){
+		function changeTextColor(item, num){
 			parent = item.parentNode;
 			var lists = parent.getElementsByClassName('cost_item');
 			for(var i = 0; i < lists.length; i++){
 				lists[i].style.color="#6e6f6f";
+				temp_input = lists[i].getElementsByTagName("input")[0];
+				if(temp_input){
+					temp_input.value = "";
+				}
 			}
 			item.style.color='#08fe8d';
+			//将结果填到虚拟表单中
+			var hidden_input_name = "hidden_" + parent.className.split(" ")[0];
+			var hidden_input = document.getElementsByName(hidden_input_name)[0];
+			hidden_input.value = num;
 		}
+		
 		function stadiumChooseButton(button){
 			button.style.background = "#ccc";
 			window.location = "http://localhost/shallwe/chooseStadium.jsp";	
 		}
+		
 		function show(){
 			var hidden_bg = document.getElementById('hidden_bg');
 			hidden_bg.style.display = "block";
 			//hidden_bg.style.height = document.body.scrollHeight + "px";
 		}
+		
 		function hide(item){
 			var hidden_bg = document.getElementById('hidden_bg');
 			hidden_bg.style.display = "none";
@@ -538,14 +564,17 @@
 			img.style.display = "block";
 			img.src = item.getElementsByTagName("img")[0].src;	
 		}
+		
 		function cancel(item){
 			item.style.display = "none";
 		}
+		
 		function dateShow(){
 			var hidden_bg = document.getElementById('hidden_time_page');
 			hidden_bg.style.display = "block";
 			
 		}
+		
 		function submit_time(){
 			var hidden_bg = document.getElementById('hidden_time_page');
 			var output = document.getElementsByClassName("sport_time_placeholder")[0];
@@ -569,8 +598,71 @@
 			}
 			var time = year + "年" + month + "月" + day + "日  " + start_hour + ":" + start_minute + "~" + end_hour + ":" + end_minute;
 			output.innerHTML = time;
+			output.style.color = "#000";
 			cancel(hidden_bg);
 		}
+		
+		function submit_activity(){
+			//获取用户填写数据
+			var sport_type = document.getElementsByClassName("sport_circle")[0].getElementsByTagName("img")[0].src;
+				sport_type = sport_type.split("/").pop().split(".")[0];
+								
+			var slogan = document.getElementsByClassName("sport_slogan")[0].getElementsByTagName("input")[0].value;
+			var time = document.getElementsByClassName("sport_time_placeholder")[0].innerHTML;
+			var address = document.getElementsByClassName("sport_addr")[0].getElementsByTagName("input")[0].value;
+			var description = document.getElementsByClassName("sport_disp")[0].getElementsByTagName("input")[0].value;
+			var sporter_count = document.getElementsByClassName("sporter_count")[0].getElementsByTagName("input")[0].value;
+			
+			//获取隐藏表单元素
+			var hidden_sport_type = document.getElementsByName("hidden_sport_type")[0];
+			var hidden_slogan = document.getElementsByName("hidden_slogan")[0];
+			var hidden_time = document.getElementsByName("hidden_time")[0];
+			var hidden_location = document.getElementsByName("hidden_location")[0];
+			var hidden_sporter_count = document.getElementsByName("hidden_sporter_count")[0];
+			var hidden_sport_cost = document.getElementsByName("hidden_sport_cost")[0];
+			var hidden_sporter_sex = document.getElementsByName("hidden_sporter_sex")[0];
+			var hidden_sport_detail = document.getElementsByName("hidden_sport_detail")[0];
+			
+			//确认用户填写信息是否有效
+			if(!sport_type){alert("请选择运动类型！");return;} 
+			
+			if(!slogan){alert("请填写活动口号！");return;}
+			
+			if(time == "请选择运动时间"){alert("请填写活动时间！");return;}
+			
+			if(!address){alert("请填写活动地址！");return;}
+			
+			if(!hidden_sport_cost.value){alert("请填写活动费用情况！");return;}
+			
+			if(!hidden_sporter_count.value){alert("请填写活动人数限制！");return;}
+			
+			if(!hidden_sporter_sex.value){alert("请填写活动人员性别限制！");return;}
+			
+			if(!description){alert("请填写活动详细描述！");return;}
+			
+			//给虚拟表单input的value值赋值
+			hidden_sport_type.value = sport_type;
+			hidden_slogan.value = slogan;
+			hidden_time.value = time;
+			hidden_location.value = address;
+			hidden_sport_detail.value = description;		
+			if(hidden_sporter_count.value == 2){
+				//检查输入是否为整数
+				var type = "^[0-9]*[1-9][0-9]*$"; 
+				var r = new RegExp(type); 
+				if(!r.test(sporter_count)){
+					alert("请输入合法人数！");
+					return;
+				}
+				hidden_sporter_count.value = sporter_count;
+			}else{
+				hidden_sporter_count.value = -1;
+			}
+			//触发submit事件
+			document.all.hidden_submit.click()		
+			alert("活动发布成功！");
+		}
+		
 	</script>
  	<script>
         var calendar = new lCalendar();

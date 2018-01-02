@@ -10,45 +10,44 @@ import java.sql.Timestamp;
 
 import pac.Stadium;
 
-public class SportInvitation {
+public class SportInvitation2 {
 	// 以下是粗略信息，用于显示在sportsInvitationList.jsp页面上
 	private int activityId;
-	public String slogan;
 	public String sportType;
-	public float money;
-	public boolean costType;// aa?
-	public int joinPeople, totalPeople;
-	public Stadium stadium;//这里面包含了sportType信息
+	public String slogan;
 	public TimeSlot timeslot;//这里面包含了详细的时间信息
 	public String location;
-	
+	public int payType; //1:免费  2: 我请客  3: AA
+	public int joinPeople, totalPeople;
+	public int sexneed; //1: 不限   2: 只限男   3：只限女
+	public String discription;  //运动具体描述
 
 	// 以下是详细信息，用于显示在sportsInvitationDetail.jsp页面上
 	public String ownerWechatName, ownerIcon, participantWechatname[], participantIcon[];
 	//public String court;
 	
-	public SportInvitation(
+	public SportInvitation2(
 			int 		activityId,
-			String 		slogan,
 			String 		sportType,
-			float		money,
-			boolean		costType,
-			Stadium		stadium,
+			String 		slogan,
 			TimeSlot	timeslot,
+			String 		location,
+			int		    payType,
 			int			joinPeople,
 			int			totalPeople,
-			String 		location
+			int			sexneed,
+			String 		discription
 			) {
 		// 构造函数
 		this.activityId = activityId;
 		this.slogan = slogan;
 		this.sportType = sportType;
-		this.money = money;
-		this.costType = costType;
-		this.stadium = stadium;
+		this.payType = payType;
 		this.timeslot = timeslot;
 		this.joinPeople = joinPeople;
 		this.totalPeople = totalPeople;
+		this.sexneed = sexneed;
+		this.discription = discription;
 		this.location = location;
 	}
 	
@@ -157,7 +156,17 @@ public class SportInvitation {
 		return stat;
 	}
 	
-	public static String makeInvitation(String slogan, double money, boolean aa, String sportType, int totalPeople, Stadium stadium, TimeSlot timeslot, String openid, String location) {
+	public static String makeInvitation2(
+			int 		activityId,
+			String		openId,
+			String 		sportType,
+			String 		slogan,
+			TimeSlot	timeslot,
+			String 		location,
+			int		    payType,
+			int			totalPeople,
+			int			sexneed,
+			String 		discription) {
 		/* TODO 新建一个邀请
 		 * 前端调用方法为
 		 * new SportInvitation().makeInvitation(......)
@@ -172,18 +181,17 @@ public class SportInvitation {
         //执行查询
 		Statement stmt = Database.initSatement(conn);
 		
-		String sql = "INSERT INTO activities (slogan, cost, pay_type, sport_type, max_participant, stadium_id, start_time, end_time, creator_id, location) "
+		String sql = "INSERT INTO sport_activities (activity_id, creator_id, sport_type, slogan, start_time, end_time, location, pay_type, max_participant, sexneed, discription) "
 				+ "VALUES("
+					+ activityId + ",'" + openId + "'," + "'" + sportType + "',"
 					+ "'" + slogan + "',"
-					+ money + ","
-					+ aa + ","
-					+ "'" + sportType + "',"
-					+ totalPeople + ","
-					+ stadium.getId() + ","
 					+ "'" + timeslot.startTime.toString().split("\\.")[0] + "',"
 					+ "'" + timeslot.endTime.toString().split("\\.")[0] + "',"
-					+ "'" + openid + "',"
-					+ "'" + location + "'"
+					+ "'" + location + "',"
+					+ payType + ","
+					+ totalPeople + ","
+					+ sexneed + ","
+					+ "'" + discription + "'"
 				+ ")";
 		if(Database.execute(stmt, sql)) stat = "success";
 		else stat = "create invitation failed";
@@ -195,11 +203,11 @@ public class SportInvitation {
 	}
 	
 	public static void main(String[] args) {
-		Stadium stadium = new Stadium(100001);
 		Timestamp start_time = new Timestamp(System.currentTimeMillis());
 		Timestamp end_time = new Timestamp(System.currentTimeMillis());
 		TimeSlot timeslot = new TimeSlot(start_time, end_time);
-		String stat = SportInvitation.makeInvitation("再来一瓶", 100, true,"run", 0, stadium, timeslot, "tungkimwa","呵呵");
+		String stat = SportInvitation2.makeInvitation2(1056, "tungkimwa", "basketball", "YaHoo!!!", timeslot, "中山大学东校区操场", 1, 11, 1, "功夫篮球");
 		System.out.println(stat);
 	}
 }
+

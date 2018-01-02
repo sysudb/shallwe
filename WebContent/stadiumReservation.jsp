@@ -30,7 +30,7 @@
 	}
 	.turn_back{
 		float: left;
-    	margin: 2px 0 2px 20px;
+    	margin: 2px 0 2px 70px;
 	}
 	.title{
 		width:100%;

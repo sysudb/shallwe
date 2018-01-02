@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="pac.StadiumList" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -20,18 +21,22 @@
 		height: 145px;
 		background:#86c5a4;
 	}
+	.turn_back{
+		float: left;
+    	margin: 70px 30px 39px 50px;
+	}
 	.search_box{
-		float:left;
-		margin:60px 30px  24px 30px;
+		float:right;
+		margin:60px 30px  25px 30px;
 		height:60px;
-		width: 94%;
+		width: 80%;
     	border-radius: 30px;
     	background: rgba(255,255,255,0.6);
 	}
 	input{
 		border: none;
 		padding:0;
-		width:94%;
+		width:92%;
     	height: 60px;
     	line-height: 60px;
     	text-align:center;
@@ -52,7 +57,7 @@
 	.search_box img{
 		position: absolute;
 		top:75px;
-		left:30%;
+		left:35%;
 	}
 	.advance_filter{
 		width:100%;
@@ -119,10 +124,9 @@
 	.stadium_info{
 		float:left;
 		height:190px;
-		width:auto;
+		width:50%;
 	}
 	.stadium_name{
-		float:left;
 		height:65px;
 		line-height:75px;
 		font-size:32px;
@@ -132,7 +136,7 @@
 	}
 	.stadium_evaliation{
 		height:28px;
-		margin-top:63px;
+		margin-top:10px;
 	}
 	.stars{
 		height:28px;
@@ -184,6 +188,11 @@
 	<jsp:useBean id="user" scope="session" class="pac.User" />
 	
 	<div class = "header">
+		<div class ="turn_back">
+					<a href="http://localhost/shallwe/promotSport.jsp">
+						<img src="/shallwe/image/arrow_left.png">
+					</a>
+				</div>
 		<div class = "search_box">
 			<img src="/shallwe/image/search.png">
 			<input name="stadium_search" placeholder = "输入场馆关键字搜索" onclick = "search_box_slide(this)" 
@@ -212,32 +221,44 @@
 	
 	<div class="stadium_lists">
 		<%
-		for(int i = 0; i < 8; i++){
+			StadiumList list = new StadiumList();
+			list.getAllStadiumList();
+		for(int i = 0; i < list.listLen; i++){
 			%>
 			<div class="stadium" onclick="window.location = 'http://localhost/shallwe/stadiumReservation.jsp'">
 			<img src="/shallwe/image/stadium.png">
 			<div class = "stadium_info">
 				<div class="stadium_name">
-					<p>世纪金源网球场</p>
-					<img style = "padding: 15px" src="/shallwe/image/stadium_vip.png">
+					<p><%=list.list[i].name %></p>
+					<%
+						if(list.list[i].vip){
+					%>
+						<img style = "padding: 15px" src="/shallwe/image/stadium_vip.png">
+					<%} %>
 				</div>
 				<div class="stadium_evaliation">
 					<div class="stars">
-						<img src="/shallwe/image/star.png">
-						<img src="/shallwe/image/star.png">
-						<img src="/shallwe/image/star.png">
-						<img src="/shallwe/image/star.png">
+						<%
+							int s = list.list[i].grade;
+						for(int j = 0; j < s; j++){
+							%>
+							<img src="/shallwe/image/star.png">
+							<%
+						}
+						for(int t = 0; t < 5 - s; t++){
+						%>
 						<img src="/shallwe/image/star_gray.png">
+						<%} %>
 					</div>
 					<p>(3人评论)</p>
 				</div>
 				<div class = "stadium_location">
 					<img src="/shallwe/image/location.png">
-					<p>海淀区 &nbsp; &nbsp; >50km</p>
+					<p><%=list.list[i].address %>&nbsp; ~<%=list.list[i].distance %> km</p>
 				</div>
 			</div>
 			<div class="stadium_price">
-					<p>¥ <p style="font-size:36px">70</p><p>起</p>
+					<p>¥ <p style="font-size:36px"><%=list.list[i].price %></p><p>起</p>
 			</div>
 		</div>
 		<%
@@ -250,13 +271,13 @@
 	<script>
 		function search_box_slide(input){
 			var search_icon = document.getElementsByClassName('search_box')[0].getElementsByTagName("img")[0];
-			search_icon.style.left = "5%";	
+			search_icon.style.left = "18%";	
 			input.style.textAlign = "left";
 			input.style.paddingLeft = "60px";
 		}
 		function search_box_reset(input){
 			var search_icon = document.getElementsByClassName('search_box')[0].getElementsByTagName("img")[0];
-			search_icon.style.left = "30%";	
+			search_icon.style.left = "35%";	
 			input.placeholder='输入场馆关键字搜索';
 			input.style.textAlign = "center";
 			input.style.paddingLeft = "0";

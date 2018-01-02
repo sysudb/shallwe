@@ -8,6 +8,9 @@ import java.sql.Statement;
 public class Stadium {
 	// 以下是粗略信息
 	public String name, address;
+	public double distance, price;
+	public int grade;
+	public boolean vip;
 	@SuppressWarnings("unused")
 	private int id;
 	// 以下是详细信息
@@ -17,10 +20,14 @@ public class Stadium {
 	public Court[] courtList;
 	public int courtListLen;
 	
-	public Stadium(int id, String name, String address) {
+	public Stadium(int id, String name, String address, double distance, double price, int grade, boolean vip) {
 		this.id = id;
 		this.name = name;
 		this.address = address;
+		this.distance = distance;
+		this.price = price;
+		this.grade = grade;
+		this.vip = vip;
 	}
 	
 	public Stadium(int id) {
