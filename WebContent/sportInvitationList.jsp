@@ -26,6 +26,15 @@ img{width:100%;}
 	width:15%;
 	height:auto;
 	bottom:0;
+	margin: 26px;
+}
+.shallwe{
+	position:absolute;
+	width:100%;
+	text-align:center;
+	line-height:200px;
+	font-size:350%;
+	color:rgb(100,200,180);
 }
 
 
@@ -177,6 +186,10 @@ img{width:100%;}
 	margin-right:20px;
 }
 
+.participant_men img{
+	border-radius:100%;
+}
+
 .participant_count{
 	width:15%;
 	height:80%;
@@ -216,10 +229,11 @@ img{width:100%;}
 	else {%>
 		<div class="head">
 			<div class="my_icon" onclick="window.location.href='me.jsp'"><img src="<%=user.headimgurl %>" /></div>
-			<div class="title">
+			<!-- <div class="title">
 				<div class="activity">活动</div>
 				<div class="news">咨询</div>
-			</div>
+			</div> -->
+			<div class="shallwe">SHALL WE</div>
 		</div>
 		<div class="create" onclick="window.location.href='promotSport.jsp'"><img src="/shallwe/image/create.png" /></div>
 		<div class="empty"></div>
@@ -248,7 +262,7 @@ img{width:100%;}
 						</div>
 						<div class="location">
 							<div class="location_img"><img src="/shallwe/image/location2.png"></div>
-							<div><% out.print(user.sportInvitationList[i].location + "(" + user.sportInvitationList[i].stadium.name + ")"); %></div>
+							<div><% out.print(user.sportInvitationList[i].location); %></div>
 						</div>
 						<div class="participant">
 							<%
@@ -258,9 +272,11 @@ img{width:100%;}
 									<%
 								}
 							%>
+							<% if(user.sportInvitationList[i].totalPeople != -1){ %>
 							<div class="participant_count">
-								<%=user.sportInvitationList[i].joinPeople %>/<%=user.sportInvitationList[i].totalPeople %>
+								<% out.print( "" + user.sportInvitationList[i].joinPeople + "/" + user.sportInvitationList[i].totalPeople); %>
 							</div>
+							<%}else{ %><div class="participant_count">不限</div><%} %>
 						</div>
 					</div>
 				</div>

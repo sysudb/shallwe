@@ -42,7 +42,7 @@ img{width:100%;}
 	background-color: white;
 	width:100%;
 	margin-top:20px;
-	height:40%;
+	height:47%;
 }
 
 .info_box{
@@ -50,7 +50,7 @@ img{width:100%;}
 	height:100%;
 	margin:0 0 0 5%;
 }
-.slogan,.time,.location,.paytype,.creator div{
+.slogan,.time,.location,.paytype,.creator,.sextype,.discription div{
 	height:100%;
 }
 
@@ -75,16 +75,16 @@ img{width:100%;}
 	line-height:500%;
 }
 
-.slogan,.time,.location,.paytype{
+.slogan,.time,.location,.paytype,.sextype,.discription{
 	width:100%;
-	height:14%;
+	height:9%;
 	margin-bottom:15px;
 	font-size:200%;
 	line-height:300%;
 	border-bottom:1px solid #efefef;
 }
 
-.paytype{
+.discription{
 	border-bottom:0;
 }
 
@@ -179,16 +179,35 @@ img{width:100%;}
 	</div>
 	<div class="location">
 		<div class="location_img"><img src="/shallwe/image/location2.png"/></div>
-		<div><%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].location%>
-			(<%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].stadium.name%>)</div>
+		<div><%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].location%> </div>
 	</div>
 	<div class="paytype">
 		<div class="paytype_img"><img src="/shallwe/image/paytype.png"/></div>
-		<% if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].costType){ %>
-		<div>支付方式：AA</div>
-		<%}else{ %>
+		<% if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].payType == 1){ %>
 		<div>支付方式：免费</div>
-		<%} %>
+		<%}else if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].payType == 2){ %>
+		<div>支付方式：我请客</div>
+		<%} else if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].payType == 3){ %>
+		<div>支付方式：AA</div>
+		<%} else{ %>
+		<div>支付方式： </div>
+		<%}%>
+	</div>
+	<div class="sextype">
+		<div class="paytype_img"><img src="/shallwe/image/paytype.png"/></div>
+		<% if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].sexneed == 1){ %>
+		<div>性别要求：无</div>
+		<%}else if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].sexneed == 2){ %>
+		<div>性别要求：男</div>
+		<%} else if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].sexneed == 3){ %>
+		<div>性别要求：女</div>
+		<%} else{ %>
+		<div> </div>
+		<%}%>
+	</div>
+	<div class="discription">
+		<div class="paytype_img"><img src="/shallwe/image/paytype.png"/></div>
+		<%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].discription %>
 	</div>
 	</div>
 </div>

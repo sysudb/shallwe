@@ -19,7 +19,7 @@ public class User {//还在设计中，未完待续
 	public boolean initSuccess;
 	public String openid, nickname, sex, province, city, country, headimgurl;
 	public float money;
-	public SportInvitation sportInvitationList[];
+	public SportInvitation2 sportInvitationList[];
 	public int sportInvitationListLen;
 	
 	public User(/*这里不能有任何参数，因为设计用于 javabean */) {
@@ -131,7 +131,7 @@ public class User {//还在设计中，未完待续
 		 * 默认值为20，通过下面的重载函数实现
 		 */
 
-		this.sportInvitationList = new SportInvitation[count];
+		this.sportInvitationList = new SportInvitation2[count];
 		
 		//创建数据库连接
 		Connection conn = Database.connect();
@@ -141,8 +141,8 @@ public class User {//还在设计中，未完待续
         
         
 		String sql;
-		if(!my) sql = "SELECT * FROM activities NATURAL JOIN stadium";
-		else sql = "SELECT * FROM activities NATURAL JOIN stadium WHERE activity_id in (SELECT activity_id FROM participate WHERE wechat_id = '" + this.openid + "')";
+		if(!my) sql = "SELECT * FROM sport_activities NATURAL JOIN stadium";
+		else sql = "SELECT * FROM sport_activities WHERE activity_id in (SELECT activity_id FROM participate WHERE wechat_id = '" + this.openid + "')";
         ResultSet rs = Database.require(stmt, sql);
         
         //提取查询结果
@@ -151,19 +151,20 @@ public class User {//还在设计中，未完待续
 			while(rs.next() && i<count){
 			    // 通过字段检索
 			    try {
-			    	this.sportInvitationList[i] = new SportInvitation(
-					rs.getInt("activity_id"),
-					rs.getString("slogan"),
-					rs.getString("sport_type"),
-					rs.getFloat("cost"),
-					rs.getBoolean("pay_type"),
-					new Stadium(rs.getInt("stadium_id"),rs.getString("stadium_name"),rs.getString("address"),
-							     rs.getDouble("distance"),rs.getDouble("price"),rs.getInt("grade"),rs.getBoolean("vip")),
-					new TimeSlot(rs.getTimestamp("start_time"),rs.getTimestamp("end_time")),
-					0,
-					rs.getInt("max_participant"),
-					rs.getString("location"));
+			    	this.sportInvitationList[i] = new SportInvitation2(
+						rs.getInt("activity_id"),
+						rs.getString("sport_type"),
+						rs.getString("slogan"),
+						new TimeSlot(rs.getTimestamp("start_time"),rs.getTimestamp("end_time")),
+						rs.getString("location"),
+						rs.getInt("pay_type"),
+						0,
+						rs.getInt("max_participant"),
+						rs.getInt("sexneed"),
+						rs.getString("discription"));
+
 		    		i++;
+		    		
 				} catch (SQLException e) {
 					e.printStackTrace();
 					new ErrorRecord(e.toString());
@@ -303,7 +304,6 @@ public class User {//还在设计中，未完待续
 			if(user1.sportInvitationList[i]!=null) {
 				System.out.println(
 						user1.sportInvitationList[i].getId() + 
-						user1.sportInvitationList[i].money + 
 						user1.sportInvitationList[i].slogan + 
 						user1.sportInvitationList[i].sportType + 
 						user1.sportInvitationList[i].joinPeople + 
