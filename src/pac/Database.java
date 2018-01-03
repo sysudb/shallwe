@@ -19,15 +19,15 @@ public class Database {
 	}
 	
 	
-//	private static String db_name = "dbteam";
-//	private static String db_passwd = "666666";
-//	private static String db_url = "jdbc:mysql://sysustudentunion.cn:3306/test?characterEncoding=utf8&useSSL=false";
-//	private static String db_url = "jdbc:mysql://127.0.0.1:3306/test?characterEncoding=utf8&useSSL=false";
+	private static String db_name = "dbteam";
+	private static String db_passwd = "666666";
+	private static String db_url = "jdbc:mysql://sysustudentunion.cn:3306/test?characterEncoding=utf8&useSSL=false";
+	//private static String db_url = "jdbc:mysql://127.0.0.1:3306/test?characterEncoding=utf8&useSSL=false";
 	 
 
-	private static String db_name = "shallwe";
-	private static String db_passwd = "123456";
-	private static String db_url = "jdbc:mysql://172.18.158.120:3306/shallwe?characterEncoding=utf8&useSSL=false";
+//	private static String db_name = "shallwe";
+//	private static String db_passwd = "123456";
+//	private static String db_url = "jdbc:mysql://172.18.158.120:3306/shallwe?characterEncoding=utf8&useSSL=false";
 	
 	public static Connection connect() {
 		Connection conn = null;

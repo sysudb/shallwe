@@ -167,7 +167,7 @@
 		<div class="title_container">
 			<div class="title">
 				<div class ="turn_back">
-					<a href="http://localhost/shallwe/chooseStadium.jsp">
+					<a href="chooseStadium.jsp">
 						<img src="/shallwe/image/arrow_left.png">
 					</a>
 				</div>

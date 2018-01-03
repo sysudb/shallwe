@@ -676,7 +676,6 @@
 			}
 			//触发submit事件
 			document.all.hidden_submit.click()		
-			alert("活动发布成功！");
 		}
 		
 	</script>
