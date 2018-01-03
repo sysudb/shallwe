@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Calendar" %>
+<%@ page import="java.util.Date" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -125,26 +130,26 @@
 	.payment{
 		position:fixed;
 		width:100%;
-		height:100px;
+		height:150px;
 		bottom:0;
 	}
 	.totalPay{
 		float:left;
 		width:50%;
-		height:100px;
+		height:150px;
 		background:white;
 	}
 	.checkPay{
 		float:left;
 		width:50%;
-		height:100px;
+		height:150px;
 		background:#ed6f6f;
 	}
 	.totalPay p, .checkPay p{
 		float:left;
 		font-size:36px;
-		height:100px;
-		line-height:100px;
+		height:150px;
+		line-height:150px;
 		text-align:center;
 		color:#ed6f6f;
 	}
@@ -175,34 +180,61 @@
 					<img src="/shallwe/image/heart.png">
 					<img src="/shallwe/image/sharing.png">
 				</div>
-				<p>北京科技大学体育馆</p>
+				<%
+				String stadiumName = request.getParameter("ToPage"); 
+				%>
+				<p>
+				<%=stadiumName %>
+				</p>
 			</div>
 			
 		</div>
-	</div>
-
-	
+	</div>	
 	<div class="week_days">
-		<div class = "date_item date_item_1">
-			<p style="margin-top:10px">今天</p>
-			<p style="margin-bottom:10px">01月03日</p>
-		</div>
-		<div class = "date_item">
-			<p style="margin-top:10px">周四</p>
-			<p style="margin-bottom:10px">01月04日</p>
-		</div>
-		<div class = "date_item">
-			<p style="margin-top:10px">周五</p>
-			<p style="margin-bottom:10px">01月05日</p>
-		</div>
-		<div class = "date_item">
-			<p style="margin-top:10px">周六</p>
-			<p style="margin-bottom:10px">01月06日</p>
-		</div>
-		<div class = "date_item">
-			<p style="margin-top:10px">周日</p>
-			<p style="margin-bottom:10px">01月07日</p>
-		</div>
+		<%
+			String[] week = {"周一","周二","周三","周四","周五","周六","周日"};
+			for(int i = 0; i < 5; i++){
+				Calendar now = Calendar.getInstance();
+				Date date=new Date();
+				now.setTime(date);
+				now.add(Calendar.DAY_OF_MONTH, i);
+				int month = now.get(Calendar.MONTH) + 1;
+				int day = now.get(Calendar.DAY_OF_MONTH);
+				
+				int weekDay = now.get(Calendar.DAY_OF_WEEK);
+				boolean isFirstSunday = (now.getFirstDayOfWeek() == Calendar.SUNDAY); 
+				if(isFirstSunday){  
+				    weekDay = weekDay - 1;  
+				    if(weekDay == 0){  
+				        weekDay = 7;  
+				    }  
+				} 
+				
+				String m = String.valueOf(month);
+				String d = String.valueOf(day);
+				if (month < 10){
+					m = "0" + String.valueOf(month);
+				}
+				if(day < 10){
+					d = "0" + String.valueOf(day);
+				}
+				if (i==0){
+					%>
+					<div class = "date_item date_item_1">
+					<p style="margin-top:10px">今天</p>
+					<%
+				}else{
+					%>
+					<div class = "date_item">
+					<p style="margin-top:10px"><%=week[weekDay-1] %></p>
+					<%
+				}
+				%>
+				<p style="margin-bottom:10px"><%=m %>月<%=d %>日</p>
+				</div>
+				<%
+			}
+		%>
 	</div>
 	
 	<div class="chooseCourt">
@@ -241,6 +273,7 @@
 					<tr>
 					<%
 						for(int j = 0; j < 5; j++){
+							
 							if(j==0){
 								%>
 								<td style="background:#ccc" onclick="book(this,<%=i%>,<%=j%>)">¥ 60</td>
@@ -264,7 +297,7 @@
 			<p>合计：&nbsp;¥ </p>
 			<p id="total">0</p>
 		</div>
-		<div class="checkPay">
+		<div class="checkPay" onclick="pay()">
 			<p>确认预定</p>
 		</div>
 	</div>
@@ -289,6 +322,16 @@
 			}
 			var cost = total * 60;
 			document.getElementById("total").innerHTML = cost;
+		}
+		
+		function pay(){
+			if(total == 0){
+				alert("您没有选择任何场地！")
+				return;
+			}
+			var totalPay = total * 60;
+			var address = "pay.jsp?totalPay=" + totalPay; 
+			window.location = address;
 		}
 	</script>
 </body>

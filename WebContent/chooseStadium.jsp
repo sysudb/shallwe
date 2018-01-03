@@ -202,7 +202,7 @@
 	
 	<div class="advance_filter">
 		<div class="filter address_filter">
-			<p>北京</p>
+			<p>广州</p>
 			<img src="/shallwe/image/arrow_down.png">
 		</div>
 		<div class="filter sport_filter">
@@ -225,7 +225,7 @@
 			list.getAllStadiumList();
 		for(int i = 0; i < list.listLen; i++){
 			%>
-			<div class="stadium" onclick="window.location = 'stadiumReservation.jsp'">
+			<div class="stadium" onclick="window.location = 'stadiumReservation.jsp?ToPage=<%=list.list[i].name%>'">
 			<img src="/shallwe/image/stadium.png">
 			<div class = "stadium_info">
 				<div class="stadium_name">

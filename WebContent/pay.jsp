@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,11 +16,18 @@
 <img src="<%=user.headimgurl%>" alt="图像缺失" width="20%" style="border: rgb(128,128,128) solid 5px;border-radius:50%;"/>
 </div>
 
-<form action="me.jsp" method="post">
+<form action="payStas.jsp" method="post">
 <div style="font-size:40px;background-color:white;padding-left:5%;padding-right:5%;padding-top:1%;padding-bottom:1%;margin-left:10%;margin-right:10%" >
 <p>付款金额 ：
-<input type="text" name="money" readonly="readonly" UNSELECTABLE="on" style="border:0;outline:0;font-weight:bold;font-size:40px;height:50px;width:55%;text-align:right;">
-<span style="font-size:40px;float:right"> 元</span>
+<% 
+String cost = request.getParameter("totalPay"); 
+if(cost == null){
+	cost = "0";
+}
+%>
+
+<input type="text" name="money" value="<%=cost%>" readonly="readonly" UNSELECTABLE="on" style="border:0;outline:0;font-weight:bold;font-size:40px;height:50px;width:55%;text-align:right;">
+<span style="font-size:40px;float:right" > 元</span>
 </div>
 
 <div style="font-size:40px;background-color:white;padding-left:5%;padding-right:5%;padding-top:1%;padding-bottom:1%;margin-left:10%;margin-right:10%;margin-top:1%" >

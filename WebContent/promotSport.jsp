@@ -675,7 +675,7 @@
 				hidden_sporter_count.value = -1;
 			}
 			//触发submit事件
-			document.all.hidden_submit.click()		
+			document.all.hidden_submit.click();		
 		}
 		
 	</script>
