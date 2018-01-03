@@ -268,13 +268,17 @@
 	<div class = "reservationTable">
 		<table>
 			<%
+				Calendar now = Calendar.getInstance();
+				Date date=new Date();
+				now.setTime(date);
+				int hour = now.get(Calendar.HOUR_OF_DAY);
 				for(int i = 7; i< 23; i++){
 					%>
 					<tr>
 					<%
 						for(int j = 0; j < 5; j++){
 							
-							if(j==0){
+							if(hour > i){
 								%>
 								<td style="background:#ccc" onclick="book(this,<%=i%>,<%=j%>)">¥ 60</td>
 								<% 

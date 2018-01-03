@@ -249,7 +249,7 @@ else{e.value="no";location.reload();}
 		<div class="empty"></div>
 		<div class="list">
 			<%user.getSportInvitationList(false); 
-			for(int i = 0 ; i < user.sportInvitationListLen; i++){%>
+			for(int i = user.sportInvitationListLen-1 ; i >= 0; i--){%>
 			<div class="invitation" >
 				<div class="creator_box">
 					<div class="creator">
