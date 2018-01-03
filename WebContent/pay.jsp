@@ -16,7 +16,7 @@
 <img src="<%=user.headimgurl%>" alt="图像缺失" width="20%" style="border: rgb(128,128,128) solid 5px;border-radius:50%;"/>
 </div>
 
-<form action="payStas.jsp" method="post">
+<form action="sportInvitationList.jsp" method="post">
 <div style="font-size:40px;background-color:white;padding-left:5%;padding-right:5%;padding-top:1%;padding-bottom:1%;margin-left:10%;margin-right:10%" >
 <p>付款金额 ：
 <% 
@@ -48,7 +48,7 @@ if(cost == null){
 
 <div align="center" style="font-size:40px;background-color:white;padding-left:5%;padding-right:5%;padding-top:5%;padding-bottom:5%;margin-left:10%;margin-right:10%;margin-top:1%" >
 <input type="hidden" name="charge" value="yes">
-<input type="submit" value="付款" style="font-size:40px;height:100px;width:90%;background:rgb(255,128,0);color:white">
+<input type="submit" value="付款" onclick = "alert('支付成功！')" style="font-size:40px;height:100px;width:90%;background:rgb(255,128,0);color:white">
 </div>
 </form>
 

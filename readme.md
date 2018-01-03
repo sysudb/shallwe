@@ -2,6 +2,9 @@
 
 ## 更新日志
 
+### 2018/01/03 13:00 by郭叙森
+- 完善了场地预定付款逻辑
+
 ### 2018/01/03 01:00 by剑华
 - 更新的数据库图
 - 修补了主页面重复加载的bug
@@ -19,9 +22,9 @@
 - 更新了后端代码，补充了筛选自己相关活动接口以及一些细节
 - 改进了数据库的依赖关系
 - 完成了前端页面：
-	- login.html
-	- sportInvitationList.jsp
-	- sportInvitationListDetail.jsp
+  - login.html
+  - sportInvitationList.jsp
+  - sportInvitationListDetail.jsp
 
 ### 2017/12/30 10:00 by剑华
 - 修改了数据库结构，更新了数据库图(shallwe\src\pac\shallwe_db.png)
