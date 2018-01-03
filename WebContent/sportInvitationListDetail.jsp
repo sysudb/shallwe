@@ -71,8 +71,9 @@ img{width:100%;}
 .creator_icon img{border-radius:100%;}
 
 .creator_name{
+	height:100%;
 	font-size:200%;
-	line-height:500%;
+	line-height:700%;
 }
 
 .slogan,.time,.location,.paytype,.sextype,.discription{
@@ -153,6 +154,14 @@ img{width:100%;}
 
 </style>
 
+<input type="hidden" id="refreshed" value="no">
+<script type="text/javascript">
+onload=function(){
+var e=document.getElementById("refreshed");
+if(e.value=="no")e.value="yes";
+else{e.value="no";location.reload();}
+}
+</script >
 
 <body>
 <% request.setCharacterEncoding("UTF-8"); %>
@@ -213,7 +222,8 @@ img{width:100%;}
 </div>
 <div class="participant">
 	<div class="participant_box">
-	<div class="participant_count">已参加（<%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].joinPeople %> / <%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].totalPeople %>）</div>
+	<div class="participant_count">已参加（<%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].joinPeople %>
+				<%if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].totalPeople != -1){  %> / <%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].totalPeople %><%} %>）</div>
 		<%for(int j = 0; j < user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].joinPeople && j < 5;j++){%>
 			<div class="participant_mem">
 				<div class="participant_icon"><img src="<%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].participantIcon[j] %>" /></div>
@@ -223,7 +233,7 @@ img{width:100%;}
 	</div>
 </div>
 <div class="bottom_blank">
-	<div class="join" onclick="alert('<%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].joinInvitation(user) %>');location.href='me.jsp'">加 入</div>
+	<div class="join" onclick="window.location.href='joinActivityStas.jsp?id=<%=request.getParameter("id") %>'">加 入</div>
 </div>
 </body>
 </html>

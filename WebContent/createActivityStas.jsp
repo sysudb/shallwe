@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="pac.Stadium" %>
 <%@ page import="pac.TimeSlot" %>
-<%@ page import="pac.SportInvitation2" %>
+<%@ page import="pac.SportInvitation" %>
 <%@ page import="java.sql.Timestamp" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.util.regex.Matcher" %>
@@ -26,6 +26,7 @@
 	String openid = user.openid;
 	
 	long activity_id =System.currentTimeMillis(); 
+
 	
 	List<String> ss = new ArrayList<String>();
 	for(String sss:time.replaceAll("[^0-9]", ",").split(",")){
@@ -50,7 +51,7 @@
     } 
 	
 	TimeSlot timeslot = new TimeSlot(start_time, end_time);
-	String stat = SportInvitation2.makeInvitation2(activity_id, openid, sport_type, slogan, timeslot, location, cost, sporter_count, sporter_sex, detail);	
+	String stat = SportInvitation.makeInvitation(activity_id, openid, sport_type, slogan, timeslot, location, cost, sporter_count, sporter_sex, detail);	
 	
 	if(stat == "success"){
 %>

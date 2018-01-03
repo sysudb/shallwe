@@ -19,15 +19,14 @@ public class User {//还在设计中，未完待续
 	public boolean initSuccess;
 	public String openid, nickname, sex, province, city, country, headimgurl;
 	public float money;
-	public SportInvitation2 sportInvitationList[];
+	public SportInvitation sportInvitationList[];
 	public int sportInvitationListLen;
 	
 	public User(/*这里不能有任何参数，因为设计用于 javabean */) {
 		
 		//【当使用调试模式时把这里手动置为true】
 		/*
-		 * 
-		 */
+		
 		this.initSuccess = true;
 		//然后在这里把 openid, nickname, sex, province, city, country, headimgurl 手动初始化
 		//以便查看stadium.jsp效果
@@ -40,7 +39,8 @@ public class User {//还在设计中，未完待续
 		this.sportInvitationListLen = 0;
 		this.headimgurl = "/shallwe/image/default_icon.jpg";
 		regist(this.openid,this.nickname,this.sex,this.province,this.city,this.country,this.headimgurl);
-		
+		 * 
+		 */
 	}
 	
 	private String regist(String openid, String nickname, String sex, String province, String city, String country, String iconUrl) {
@@ -72,7 +72,7 @@ public class User {//还在设计中，未完待续
         
         //关闭连接   !!!一定要关闭，释放资源
         Database.disconect(conn);
-		return stat;//仅为了消灭没有返回值的错误提示
+		return stat;
 	}
 	
 	public void init(String code) {
@@ -131,7 +131,7 @@ public class User {//还在设计中，未完待续
 		 * 默认值为20，通过下面的重载函数实现
 		 */
 
-		this.sportInvitationList = new SportInvitation2[count];
+		this.sportInvitationList = new SportInvitation[count];
 		
 		//创建数据库连接
 		Connection conn = Database.connect();
@@ -141,7 +141,7 @@ public class User {//还在设计中，未完待续
         
         
 		String sql;
-		if(!my) sql = "SELECT * FROM sport_activities NATURAL JOIN stadium";
+		if(!my) sql = "SELECT * FROM sport_activities";
 		else sql = "SELECT * FROM sport_activities WHERE activity_id in (SELECT activity_id FROM participate WHERE wechat_id = '" + this.openid + "')";
         ResultSet rs = Database.require(stmt, sql);
         
@@ -151,8 +151,8 @@ public class User {//还在设计中，未完待续
 			while(rs.next() && i<count){
 			    // 通过字段检索
 			    try {
-			    	this.sportInvitationList[i] = new SportInvitation2(
-						rs.getInt("activity_id"),
+			    	this.sportInvitationList[i] = new SportInvitation(
+						rs.getLong("activity_id"),
 						rs.getString("sport_type"),
 						rs.getString("slogan"),
 						new TimeSlot(rs.getTimestamp("start_time"),rs.getTimestamp("end_time")),
@@ -162,9 +162,7 @@ public class User {//还在设计中，未完待续
 						rs.getInt("max_participant"),
 						rs.getInt("sexneed"),
 						rs.getString("discription"));
-
 		    		i++;
-		    		
 				} catch (SQLException e) {
 					e.printStackTrace();
 					new ErrorRecord(e.toString());
@@ -180,7 +178,7 @@ public class User {//还在设计中，未完待续
             sql = "SELECT count(*) as num_participant FROM participate WHERE activity_id = " + this.sportInvitationList[i].getId();
             rs = Database.require(stmt, sql);
             try {
-				while(rs.next() && i<count){
+				while(rs.next()){
 					// 通过字段检索
 			        try {
 			        	this.sportInvitationList[i].joinPeople = rs.getInt("num_participant");
@@ -295,7 +293,7 @@ public class User {//还在设计中，未完待续
 		user1.reduceMoney(50.7);
 		System.out.println(user1.money);
 		
-		user1.regist("7777", "2222", "3333", "4444", "5555", "6666","/shallwe/image/default_icon.jpg");
+		//user1.regist("7777", "2222", "3333", "4444", "5555", "6666","/shallwe/image/default_icon.jpg");
 		
 
 		int count = 10;
@@ -303,20 +301,23 @@ public class User {//还在设计中，未完待续
 		for(int i = 0 ; i < count;i++) {
 			if(user1.sportInvitationList[i]!=null) {
 				System.out.println(
-						user1.sportInvitationList[i].getId() + 
-						user1.sportInvitationList[i].slogan + 
-						user1.sportInvitationList[i].sportType + 
-						user1.sportInvitationList[i].joinPeople + 
+						user1.sportInvitationList[i].getId() + " " +
+						user1.sportInvitationList[i].slogan +  " " +
+						user1.sportInvitationList[i].sportType +  " " +
+						user1.sportInvitationList[i].joinPeople +  " " +
 						user1.sportInvitationList[i].totalPeople);
 				user1.sportInvitationList[i].getDetails();
 				System.out.println("creator: " + user1.sportInvitationList[i].ownerWechatName);
 				for(int j = 0 ; j <user1.sportInvitationList[i].joinPeople;j++) {
 					System.out.println(user1.sportInvitationList[i].participantWechatname[j] + " " + user1.sportInvitationList[i].participantIcon[j]);
 				}
+				/*
 				if(user1.sportInvitationList[i].ownerWechatName.equals("tungkw")) {
 					String stat = user1.sportInvitationList[i].joinInvitation(new User());
 					System.out.println(stat);
 				}
+				 * 
+				 */
 			}
 		}
 	}
