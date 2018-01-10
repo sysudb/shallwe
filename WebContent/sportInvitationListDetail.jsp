@@ -167,7 +167,14 @@ else{e.value="no";location.reload();}
 <% request.setCharacterEncoding("UTF-8"); %>
 <jsp:useBean id="user" scope="session" class="pac.User" />
 
-
+<%
+int index = 0;
+try{index = Integer.valueOf(request.getParameter("id"));}
+catch(Exception e){
+	out.println("alert('此用户名已存在，请重新输入！');");
+	response.sendRedirect("sportInvitationList.jsp");
+}
+%>
 <div class="head">
 	<div class="back" onclick="location.href='sportInvitationList.jsp'"><img src="/shallwe/image/back.png"></div>
 	<div class="title">运动计划详情</div>
@@ -175,28 +182,28 @@ else{e.value="no";location.reload();}
 <div class="info">
 	<div class="info_box">
 	<div class="creator">
-		<div class="creator_icon"><img src="<%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].ownerIcon %>"></div>
-		<div class="creator_name"><%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].ownerWechatName %></div>
+		<div class="creator_icon"><img src="<%=user.sportInvitationList[index].ownerIcon %>"></div>
+		<div class="creator_name"><%=user.sportInvitationList[index].ownerWechatName %></div>
 	</div>
 	<div class="slogan">
 		<div class="slogan_img"><img src="/shallwe/image/slogan.png"/></div>
-		<div><%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].slogan %></div>
+		<div><%=user.sportInvitationList[index].slogan %></div>
 	</div>
 	<div class="time">
 		<div class="time_img"><img src="/shallwe/image/time.png"/></div>
-		<div><%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].timeslot.startTime.toString().split("\\.")[0]+" - "+user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].timeslot.endTime.toString().split("[. ]")[1] %></div>
+		<div><%=user.sportInvitationList[index].timeslot.startTime.toString().split("\\.")[0]+" - "+user.sportInvitationList[index].timeslot.endTime.toString().split("[. ]")[1] %></div>
 	</div>
 	<div class="location">
 		<div class="location_img"><img src="/shallwe/image/location2.png"/></div>
-		<div><%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].location%> </div>
+		<div><%=user.sportInvitationList[index].location%> </div>
 	</div>
 	<div class="paytype">
 		<div class="paytype_img"><img src="/shallwe/image/paytype.png"/></div>
-		<% if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].payType == 1){ %>
+		<% if(user.sportInvitationList[index].payType == 1){ %>
 		<div>支付方式：免费</div>
-		<%}else if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].payType == 2){ %>
+		<%}else if(user.sportInvitationList[index].payType == 2){ %>
 		<div>支付方式：我请客</div>
-		<%} else if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].payType == 3){ %>
+		<%} else if(user.sportInvitationList[index].payType == 3){ %>
 		<div>支付方式：AA</div>
 		<%} else{ %>
 		<div>支付方式： </div>
@@ -204,11 +211,11 @@ else{e.value="no";location.reload();}
 	</div>
 	<div class="sextype">
 		<div class="paytype_img"><img src="/shallwe/image/paytype.png"/></div>
-		<% if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].sexneed == 1){ %>
+		<% if(user.sportInvitationList[index].sexneed == 1){ %>
 		<div>性别要求：无</div>
-		<%}else if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].sexneed == 2){ %>
+		<%}else if(user.sportInvitationList[index].sexneed == 2){ %>
 		<div>性别要求：男</div>
-		<%} else if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].sexneed == 3){ %>
+		<%} else if(user.sportInvitationList[index].sexneed == 3){ %>
 		<div>性别要求：女</div>
 		<%} else{ %>
 		<div> </div>
@@ -216,18 +223,18 @@ else{e.value="no";location.reload();}
 	</div>
 	<div class="discription">
 		<div class="paytype_img"><img src="/shallwe/image/paytype.png"/></div>
-		<%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].discription %>
+		<%=user.sportInvitationList[index].discription %>
 	</div>
 	</div>
 </div>
 <div class="participant">
 	<div class="participant_box">
-	<div class="participant_count">已参加（<%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].joinPeople %>
-				<%if(user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].totalPeople != -1){  %> / <%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].totalPeople %><%} %>）</div>
-		<%for(int j = 0; j < user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].joinPeople && j < 5;j++){%>
+	<div class="participant_count">已参加（<%=user.sportInvitationList[index].joinPeople %>
+		<%if(user.sportInvitationList[index].totalPeople != -1){  %> / <%=user.sportInvitationList[index].totalPeople %><%} %>）</div>
+		<%for(int j = 0; j < user.sportInvitationList[index].joinPeople && j < 5;j++){%>
 			<div class="participant_mem">
-				<div class="participant_icon"><img src="<%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].participantIcon[j] %>" /></div>
-				<div class="participant_name"><%=user.sportInvitationList[Integer.valueOf(request.getParameter("id"))].participantWechatname[j] %></div>
+				<div class="participant_icon"><img src="<%=user.sportInvitationList[index].participantIcon[j] %>" /></div>
+				<div class="participant_name"><%=user.sportInvitationList[index].participantWechatname[j] %></div>
 			</div>
 		<%}%>
 	</div>

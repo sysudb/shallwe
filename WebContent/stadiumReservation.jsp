@@ -209,7 +209,6 @@
 				        weekDay = 7;  
 				    }  
 				} 
-				
 				String m = String.valueOf(month);
 				String d = String.valueOf(day);
 				if (month < 10){
@@ -270,6 +269,8 @@
 			<%
 				Calendar now = Calendar.getInstance();
 				Date date=new Date();
+				//SimpleDateFormat bjSdf = new SimpleDateFormat("yyyy-MM-dd HH24:mm:ss");     // 北京  
+				//bjSdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));  // 设置北京时区  
 				now.setTime(date);
 				int hour = now.get(Calendar.HOUR_OF_DAY);
 				for(int i = 7; i< 23; i++){
@@ -278,7 +279,7 @@
 					<%
 						for(int j = 0; j < 5; j++){
 							
-							if(hour > i){
+							if(hour + 8 > i){
 								%>
 								<td style="background:#ccc" onclick="book(this,<%=i%>,<%=j%>)">¥ 60</td>
 								<% 
