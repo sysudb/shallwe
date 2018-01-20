@@ -128,7 +128,7 @@ public class SportInvitation {
         
         if(this.joinPeople>=this.totalPeople && this.totalPeople != -1) return "已满";
         if(this.sexneed!=1) {
-        	if(2 - this.sexneed != Integer.valueOf(newParticipant.sex)) return "性别不符";
+        	if(3 - this.sexneed != Integer.valueOf(newParticipant.sex)) return "性别不符";
         }
         
 		//创建数据库连接
