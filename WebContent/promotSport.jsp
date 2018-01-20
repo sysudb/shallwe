@@ -521,10 +521,12 @@
 			<input name="sport_detail" placeholder = "请详细描述计划内容" onfocus="this.placeholder=''" onblur="this.placeholder='请详细描述计划内容'" type = "text">
 		</form>
 	</div>
+<!-- 
 	<div class = "button" onclick = "stadiumChooseButton(this)">
 		<p class = "choose_stadium">预定场馆</p>
 		<p class = "choose_stadium_arrow">></p>
 	</div>
+ -->	
 	<!-- =============虚拟表单隐藏层开始================= -->
 	<form class = "hidden_form" style="display:none" action="createActivityStas.jsp" method="post">
 		<input name = "hidden_sport_type" type = "text">

@@ -166,7 +166,29 @@
 		text-align: left;
 		font-size:50px;
 	}
+	.disable_mask{
+		position:absolute;
+	  	left:0px;
+	  	top:0px;
+      	background-color:#fff;
+      	width:100%;
+      	height:100%;
+      	font-size: 40px;
+      	color: #000;
+      	text-align:center;
+      	filter:alpha(opacity=60);
+      	background: rgba(255,255,255,.6); 
+      	z-Index:999;
+	}
+	.disable_mask span{
+		float:left;
+		width:100%;
+		margin-top:50%;
+	}
 </style>
+
+<div class="disable_mask"><span>此功能暂未开放，敬请期待！</span></div>
+
 <body>
 	<div class="header">
 		<div class="title_container">

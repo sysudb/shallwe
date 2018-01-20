@@ -4,8 +4,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Shall We</title>
-</head>
-
 <style>
 body{background-color: rgb(240,240,240);font-family:"Microsoft YaHei";margin:0;}
 img{width:100%;}
@@ -67,14 +65,6 @@ img{width:100%;}
 	border-radius:0 40px 40px 0;
 	background-color:rgb(240,240,240);
 	color:black;
-}
-
-.create{
-	position:fixed;
-	width:15%;
-	bottom:100px;;
-	right:20px;
-	border-radius:10px;
 }
 
 .list{
@@ -195,7 +185,7 @@ img{width:100%;}
 	width:15%;
 	height:80%;
 	float:right;
-	margin-right:100px;
+	margin-right:70px;
 	font-size:200%;
 	text-align:center;
 	line-height:200%;
@@ -210,15 +200,69 @@ img{width:100%;}
 	box-shadow:-2px 7px 6px rgba(200,200,200,0.3);
 } 
 
+/**==============wheelmenu begin===========**/
+.wheel{
+	position:fixed;
+	width:150px;
+	height:150px;
+	bottom:100px;;
+	right:50px;
+	font-size:100px;
+	text-align:center;
+	color: white;
+	border-radius:50%;
+	background: rgb(100,200,180);
+}
+
+.wheel_option{
+	display: none;
+	width:200px;
+	height:100px;
+	font-size: 36px;
+	color: white;
+	margin-top: -260px;
+    line-height: 100px;
+    margin-bottom: 30px;
+	text-align: center;
+	margin-left: -25px;
+    border-radius: 10px;
+	background: rgb(100,200,180);
+}
+
+.wheel_option:active{
+	background: rgb(204, 204, 204);
+}
+/**==============wheelmenu end===========**/
+    
 </style>
 
 <input type="hidden" id="refreshed" value="no">
 <script type="text/javascript">
 onload=function(){
-var e=document.getElementById("refreshed");
-if(e.value=="no")e.value="yes";
-else{e.value="no";location.reload();}
+	var e=document.getElementById("refreshed");
+		if(e.value=="no") e.value="yes";
+		else{
+			e.value="no";location.reload();
+		}
 }
+
+function showOptions(wheel){
+	wheel_options = document.getElementsByClassName("wheel_option");
+	if(wheel.style.background == "rgb(204, 204, 204)"){
+		wheel.style.background = "rgb(100,200,180)";
+		wheel.getElementsByTagName("span").innerHTML = "+";
+		for(var i = 0; i < wheel_options.length; i++){
+			wheel_options[i].style.display = "none";
+		}
+	}else{
+		wheel.style.background = "rgb(204, 204, 204)";
+		wheel.getElementsByTagName("span").innerHTML = "-";
+		for(var i = 0; i < wheel_options.length; i++){
+			wheel_options[i].style.display = "block";
+		}
+	}
+}
+
 </script >
 
 <body>
@@ -229,7 +273,7 @@ else{e.value="no";location.reload();}
 	String code = "";
 	code = request.getParameter("code");
 	user.init(code);
-	if (user.initSuccess == false) {
+	if (user.initSuccess == true) {
 		%>
 		<script type="text/javascript">
 		alert("微信自动登录失败！");
@@ -239,13 +283,14 @@ else{e.value="no";location.reload();}
 	else {%>
 		<div class="head">
 			<div class="my_icon" onclick="window.location.href='me.jsp'"><img src="<%=user.headimgurl %>" /></div>
-			<!-- <div class="title">
-				<div class="activity">活动</div>
-				<div class="news">咨询</div>
-			</div> -->
 			<div class="shallwe">SHALL WE</div>
 		</div>
-		<div class="create" onclick="window.location.href='promotSport.jsp'"><img src="/shallwe/image/create.png" /></div>
+		<div class="wheel" onclick="showOptions(this)">
+			<span>+</span>
+			<div  class = "wheel_option" onclick="window.location.href='promotSport.jsp'">发布预约</div>
+			<div class = "wheel_option" onclick="window.location.href='chooseStadium.jsp'">场馆预定</div>
+		</div>
+		
 		<div class="empty"></div>
 		<div class="list">
 			<%user.getSportInvitationList(false); 

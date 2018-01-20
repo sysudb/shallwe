@@ -189,7 +189,7 @@
 	
 	<div class = "header">
 		<div class ="turn_back">
-					<a href="promotSport.jsp">
+					<a href="sportInvitationList.jsp">
 						<img src="/shallwe/image/arrow_left.png">
 					</a>
 				</div>
