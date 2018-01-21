@@ -167,7 +167,7 @@
 		font-size:50px;
 	}
 	.disable_mask{
-		position:absolute;
+		position:fixed;
 	  	left:0px;
 	  	top:0px;
       	background-color:#fff;

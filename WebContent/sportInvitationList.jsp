@@ -208,6 +208,7 @@ img{width:100%;}
 	bottom:100px;;
 	right:50px;
 	font-size:100px;
+	line-height:150px;
 	text-align:center;
 	color: white;
 	border-radius:50%;
@@ -273,7 +274,7 @@ function showOptions(wheel){
 	String code = "";
 	code = request.getParameter("code");
 	user.init(code);
-	if (user.initSuccess == true) {
+	if (user.initSuccess == false) {
 		%>
 		<script type="text/javascript">
 		alert("微信自动登录失败！");
